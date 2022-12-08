@@ -1,7 +1,8 @@
-package com.example.xparty
+package com.example.xparty.ui.main_character
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.xparty.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

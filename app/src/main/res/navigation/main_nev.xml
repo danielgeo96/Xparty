@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nev"
+    app:startDestination="@id/mainFragmentStart">
+
+    <fragment
+        android:id="@+id/mainFragmentStart"
+        android:name="com.example.xparty.ui.main_character.MainFragmentStart"
+        android:label="main_fragement_layout"
+        tools:layout="@layout/main_fragement_layout" >
+        <action
+            android:id="@+id/action_mainFragmentStart_to_addUserFragment"
+            app:destination="@id/addUserFragment" />
+        <action
+            android:id="@+id/action_mainFragmentStart_to_addPartyFragment"
+            app:destination="@id/addPartyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPartyFragment"
+        android:name="com.example.xparty.ui.party_character.AddPartyFragment"
+        android:label="add_party_layout"
+        tools:layout="@layout/add_party_layout" >
+        <action
+            android:id="@+id/action_addPartyFragment_to_mainFragmentStart"
+            app:destination="@id/mainFragmentStart" />
+    </fragment>
+    <fragment
+        android:id="@+id/addUserFragment"
+        android:name="com.example.xparty.ui.user_character.AddUserFragment"
+        android:label="add_user_layout"
+        tools:layout="@layout/add_user_layout" >
+        <action
+            android:id="@+id/action_addUserFragment_to_mainFragmentStart"
+            app:destination="@id/mainFragmentStart" />
+    </fragment>
+</navigation>
