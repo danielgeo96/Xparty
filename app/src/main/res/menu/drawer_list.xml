@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/mainFragmentStart_menu"
+        android:checked="true"
+        android:icon="@drawable/ic_outline_search_24"
+        android:title="@string/MainPage" />
+    <group
+        android:id="@+id/userGroup">
         <item
-            android:id="@+id/mainFragmentStart_menu"
-            android:checked="true"
-            android:icon="@drawable/ic_outline_search_24"
-            android:title="@string/MainPage" />
+            android:id="@+id/user_events_history"
+            android:title="Event history" />
         <item
-            android:id="@+id/nav_second_fragment"
-            android:title="Second" />
+            android:id="@+id/user_favorites_events"
+            android:title="Favorites events" />
+    </group>
+    <group
+        android:id="@+id/producerGroup">
         <item
-            android:id="@+id/nav_third_fragment"
-            android:title="Third" />
+            android:id="@+id/producer_add_event"
+            android:title="Add event" />
+        <item
+            android:id="@+id/producer_history_events"
+            android:title="My events" />
+
+    </group>
+
 
 </menu>

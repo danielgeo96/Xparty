@@ -1,7 +1,10 @@
 package com.example.xparty.ui.main_character
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
@@ -15,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigationView: NavigationView
     private var isOpen: Boolean = false
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,15 +44,23 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.mainFragmentStart_menu -> {
-                    Toast.makeText(this, "My Profile", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.MainPage, Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.nav_second_fragment -> {
-                    Toast.makeText(this, "People", Toast.LENGTH_SHORT).show()
+                R.id.user_events_history -> {
+                    Toast.makeText(this, "Event history", Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.nav_third_fragment -> {
-                    Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
+                R.id.user_favorites_events -> {
+                    Toast.makeText(this, "Favorites events", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.producer_add_event -> {
+                    Toast.makeText(this, "Add event", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.producer_history_events -> {
+                    Toast.makeText(this, "My events", Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> {
@@ -56,6 +68,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        //TODO: Add support to shared pref after the creation of users
+        setDrawerMenuItems(2)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -68,5 +84,19 @@ class MainActivity : AppCompatActivity() {
             isOpen = true
             return true
         }
+    }
+
+    private fun setDrawerMenuItems(index: Int) {
+        var menu: Menu = navigationView.menu
+        when (index) {
+            0 -> {
+                menu.removeGroup(R.id.userGroup)
+                menu.removeGroup(R.id.producerGroup)
+            }
+            1 -> {
+                menu.removeGroup(R.id.producerGroup)
+            }
+        }
+
     }
 }
