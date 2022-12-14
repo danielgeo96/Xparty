@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_mainFragmentStart_to_addPartyFragment"
             app:destination="@id/addPartyFragment" />
+        <action
+            android:id="@+id/action_mainFragmentStart_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPartyFragment"
@@ -35,4 +38,8 @@
             android:id="@+id/action_addUserFragment_to_mainFragmentStart"
             app:destination="@id/mainFragmentStart" />
     </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.xparty.ui.MapFragment"
+        android:label="MapFragment" />
 </navigation>
