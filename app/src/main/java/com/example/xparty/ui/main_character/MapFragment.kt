@@ -1,4 +1,4 @@
-package com.example.xparty.ui
+package com.example.xparty.ui.main_character
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

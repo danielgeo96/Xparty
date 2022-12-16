@@ -1,4 +1,4 @@
-package com.example.xparty.ui.main_character
+package com.example.xparty.ui
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity

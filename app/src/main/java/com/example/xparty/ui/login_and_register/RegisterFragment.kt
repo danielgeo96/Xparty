@@ -1,21 +1,21 @@
-package com.example.xparty.ui.user_character
+package com.example.xparty.ui.login_and_register
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.xparty.databinding.AddUserLayoutBinding
+import com.example.xparty.databinding.FragmentRegisterBinding
 
-class AddUserFragment:Fragment() {
-    private var _binding : AddUserLayoutBinding? =null
+class RegisterFragment:Fragment() {
+    private var _binding : FragmentRegisterBinding? =null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = AddUserLayoutBinding.inflate(inflater,container,false)
+        _binding = FragmentRegisterBinding.inflate(inflater,container,false)
         return binding.root
     }
 

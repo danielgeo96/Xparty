@@ -7,18 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.xparty.R
-import com.example.xparty.databinding.MainFragementLayoutBinding
-import com.google.android.material.navigation.NavigationView
+import com.example.xparty.databinding.FragementPartySearchBinding
 
-class MainFragmentStart : Fragment(){
-    private var _binding:MainFragementLayoutBinding?=null
+class PartySearchFragment : Fragment(){
+    private var _binding:FragementPartySearchBinding?=null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = MainFragementLayoutBinding.inflate(inflater,container,false)
+        _binding = FragementPartySearchBinding.inflate(inflater,container,false)
 
         binding.floatingActionButton.setOnClickListener {
         view?.findNavController()?.navigate(R.id.action_mainFragmentStart_to_mapFragment)

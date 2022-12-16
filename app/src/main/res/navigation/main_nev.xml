@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/mainFragmentStart"
-        android:name="com.example.xparty.ui.main_character.MainFragmentStart"
+        android:name="com.example.xparty.ui.main_character.PartySearchFragment"
         android:label="main_fragement_layout"
-        tools:layout="@layout/main_fragement_layout" >
+        tools:layout="@layout/fragement_party_search" >
         <action
             android:id="@+id/action_mainFragmentStart_to_addUserFragment"
             app:destination="@id/addUserFragment" />
@@ -31,15 +31,15 @@
     </fragment>
     <fragment
         android:id="@+id/addUserFragment"
-        android:name="com.example.xparty.ui.user_character.AddUserFragment"
+        android:name="com.example.xparty.ui.login_and_register.RegisterFragment"
         android:label="add_user_layout"
-        tools:layout="@layout/add_user_layout" >
+        tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_addUserFragment_to_mainFragmentStart"
             app:destination="@id/mainFragmentStart" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.example.xparty.ui.MapFragment"
+        android:name="com.example.xparty.ui.main_character.MapFragment"
         android:label="MapFragment" />
 </navigation>
