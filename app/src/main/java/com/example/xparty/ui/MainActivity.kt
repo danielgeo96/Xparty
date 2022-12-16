@@ -8,7 +8,13 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.xparty.R
+import com.example.xparty.ui.login_and_register.LoginFragment
+import com.example.xparty.ui.login_and_register.RegisterFragment
+import com.example.xparty.ui.main_character.PartySearchFragment
+import com.example.xparty.ui.party_character.AddPartyFragment
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -41,26 +47,42 @@ class MainActivity : AppCompatActivity() {
         navigationView = findViewById(R.id.navView)
 
         // Call setNavigationItemSelectedListener on the NavigationView to detect when items are clicked
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.mainFragmentStart_menu -> {
-                    Toast.makeText(this, R.string.MainPage, Toast.LENGTH_SHORT).show()
+        navigationView.setNavigationItemSelectedListener {
+
+            it.isChecked = true
+
+            when (it.itemId) {
+                R.id.party_search_btn -> {
+                    //view?.findNavController()?.navigate(R.id.action_mainFragmentStart_to_mapFragment)
+                    replaceFragment(PartySearchFragment(), it.title.toString())
                     true
                 }
-                R.id.user_events_history -> {
+                R.id.events_user_history_btn -> {
                     Toast.makeText(this, "Event history", Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.user_favorites_events -> {
+                R.id.favorites_events_btn -> {
                     Toast.makeText(this, "Favorites events", Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.producer_add_event -> {
-                    Toast.makeText(this, "Add event", Toast.LENGTH_SHORT).show()
+                R.id.add_event_btn -> {
+                    replaceFragment(AddPartyFragment(), it.title.toString())
                     true
                 }
-                R.id.producer_history_events -> {
+                R.id.events_producer_history_btn -> {
                     Toast.makeText(this, "My events", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.login_btn -> {
+                    replaceFragment(LoginFragment(), it.title.toString())
+                    true
+                }
+                R.id.register_btn -> {
+                    replaceFragment(RegisterFragment(), it.title.toString())
+                    true
+                }
+                R.id.logout_btn -> {
+                    replaceFragment(PartySearchFragment(), it.title.toString())
                     true
                 }
                 else -> {
@@ -89,14 +111,30 @@ class MainActivity : AppCompatActivity() {
     private fun setDrawerMenuItems(index: Int) {
         var menu: Menu = navigationView.menu
         when (index) {
-            0 -> {
-                menu.removeGroup(R.id.userGroup)
-                menu.removeGroup(R.id.producerGroup)
-            }
             1 -> {
-                menu.removeGroup(R.id.producerGroup)
+                menu.removeItem(R.id.add_event_btn)
+                menu.removeItem(R.id.events_producer_history_btn)
+                menu.removeItem(R.id.guest)
+            }
+            2 -> {
+                menu.removeItem(R.id.guest)
+            }
+            else->{
+                menu.removeItem(R.id.favorites_events_btn)
+                menu.removeItem(R.id.add_event_btn)
+                menu.removeItem(R.id.events_user_history_btn)
+                menu.removeItem(R.id.events_producer_history_btn)
+                menu.removeItem(R.id.member)
             }
         }
+    }
 
+    private fun replaceFragment(fragment: Fragment, title: String) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.nav_host_fragment, fragment)
+        fragmentTransaction.commit()
+        drawerLayout.closeDrawers()
+        setTitle(title)
     }
 }
