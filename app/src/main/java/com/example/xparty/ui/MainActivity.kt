@@ -1,21 +1,24 @@
 package com.example.xparty.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.example.xparty.R
-import com.example.xparty.ui.login_and_register.LoginFragment
-import com.example.xparty.ui.login_and_register.RegisterFragment
+import com.example.xparty.ui.user.LoginFragment
+import com.example.xparty.ui.user.RegisterFragment
 import com.example.xparty.ui.main_character.PartySearchFragment
 import com.example.xparty.ui.party_character.AddPartyFragment
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,10 +27,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigationView: NavigationView
     private var isOpen: Boolean = false
 
+
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val sharedPreference = this.getSharedPreferences("pref", Context.MODE_PRIVATE)
 
         // Call findViewById on the DrawerLayout
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -82,7 +89,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.logout_btn -> {
-                    replaceFragment(PartySearchFragment(), it.title.toString())
+                    val editor = sharedPreference.edit()
+                    editor.putBoolean("isLogin", false)
+                    editor.apply()
+                    handleConnectionState(false,false)
+
                     true
                 }
                 else -> {
@@ -91,20 +102,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //TODO: Add support to shared pref after the creation of users
-        setDrawerMenuItems(2)
+        handleConnectionState(sharedPreference.getBoolean("isLogin",false) as Boolean,sharedPreference.getBoolean("type",false) as Boolean)
 
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        if (isOpen) {
+        return if (isOpen) {
             drawerLayout.closeDrawer(navigationView)
             isOpen = false
-            return false
+            false
         } else {
             drawerLayout.openDrawer(navigationView)
             isOpen = true
-            return true
+            true
         }
     }
 
@@ -112,24 +122,29 @@ class MainActivity : AppCompatActivity() {
         var menu: Menu = navigationView.menu
         when (index) {
             1 -> {
-                menu.removeItem(R.id.add_event_btn)
-                menu.removeItem(R.id.events_producer_history_btn)
-                menu.removeItem(R.id.guest)
+                menu.setGroupVisible(R.id.member_main,true)
+                menu.setGroupVisible(R.id.producer_main,false)
+                menu.setGroupVisible(R.id.guest,false)
+                menu.setGroupVisible(R.id.member,true)
+
             }
             2 -> {
-                menu.removeItem(R.id.guest)
+                menu.setGroupVisible(R.id.member_main,true)
+                menu.setGroupVisible(R.id.producer_main,true)
+                menu.setGroupVisible(R.id.guest,false)
+                menu.setGroupVisible(R.id.member,true)
             }
             else->{
-                menu.removeItem(R.id.favorites_events_btn)
-                menu.removeItem(R.id.add_event_btn)
-                menu.removeItem(R.id.events_user_history_btn)
-                menu.removeItem(R.id.events_producer_history_btn)
-                menu.removeItem(R.id.member)
+                menu.setGroupVisible(R.id.member_main,false)
+                menu.setGroupVisible(R.id.producer_main,false)
+                menu.setGroupVisible(R.id.guest,true)
+                menu.setGroupVisible(R.id.member,false)
+
             }
         }
     }
 
-    private fun replaceFragment(fragment: Fragment, title: String) {
+     private fun replaceFragment(fragment: Fragment, title: String) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.nav_host_fragment, fragment)
@@ -137,4 +152,17 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.closeDrawers()
         setTitle(title)
     }
+
+     fun handleConnectionState(isLogin:Boolean,type : Boolean){
+        if(isLogin){
+            if(type){
+                setDrawerMenuItems(2)
+            }else{
+                setDrawerMenuItems(1)
+            }
+        }else{
+            setDrawerMenuItems(0)
+        }
+    }
+
 }
