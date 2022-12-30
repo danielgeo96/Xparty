@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "213542348276",
+    "project_id": "xparty-d7286",
+    "storage_bucket": "xparty-d7286.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213542348276:android:02fa72d54dbb8cb3b605a1",
+        "android_client_info": {
+          "package_name": "com.example.xparty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213542348276-a7pdjiiej9g0n5ak70alrdc04j7k51vi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnTGW9m2wTrdSuB3X8dKcdzTbpfqOD8hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213542348276-a7pdjiiej9g0n5ak70alrdc04j7k51vi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

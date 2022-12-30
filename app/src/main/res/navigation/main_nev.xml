@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/addUserFragment"
-        android:name="com.example.xparty.ui.login_and_register.RegisterFragment"
+        android:name="com.example.xparty.ui.user.RegisterFragment"
         android:label="add_user_layout"
         tools:layout="@layout/fragment_register" >
         <action
