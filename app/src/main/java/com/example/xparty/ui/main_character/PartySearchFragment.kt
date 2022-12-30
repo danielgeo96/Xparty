@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.xparty.R
 import com.example.xparty.databinding.FragementPartySearchBinding
 import com.example.xparty.ui.MainActivity
+
 
 class PartySearchFragment : Fragment() {
     private var _binding: FragementPartySearchBinding? = null
@@ -20,11 +20,13 @@ class PartySearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        container?.removeAllViews()
         _binding = FragementPartySearchBinding.inflate(inflater, container, false)
 
         binding.floatingActionButton.setOnClickListener {
             //TODO: fix crash when click after login.
             view?.findNavController()?.navigate(R.id.action_mainFragmentStart_to_mapFragment)
+
         }
         return binding.root
     }

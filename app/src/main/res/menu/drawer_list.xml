@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:id="@+id/main_group"
+    <group
+        android:id="@+id/main_group"
         android:checkableBehavior="single">
-    <item
-        android:id="@+id/party_search_btn"
-        android:checked="true"
-        android:icon="@drawable/ic_outline_search_24"
-        android:title="@string/MainPage" />
+        <item
+            android:id="@+id/party_search_btn"
+            android:checked="true"
+            android:icon="@drawable/ic_outline_search_24"
+            android:title="@string/MainPage" />
     </group>
     <group
         android:id="@+id/member_main"
@@ -17,11 +18,11 @@
         <item
             android:id="@+id/events_user_history_btn"
             android:icon="@drawable/ic_baseline_history_24"
-            android:title="Event history" />
+            android:title="@string/event_history" />
         <item
             android:id="@+id/favorites_events_btn"
             android:icon="@drawable/ic_baseline_favorite_border_24"
-            android:title="Favorites events" />
+            android:title="@string/favorites_events" />
     </group>
 
     <group
@@ -30,43 +31,28 @@
         <item
             android:id="@+id/add_event_btn"
             android:icon="@drawable/ic_baseline_add_24"
-            android:title="Add event" />
+            android:title="@string/add_event" />
         <item
             android:id="@+id/events_producer_history_btn"
             android:icon="@drawable/ic_baseline_playlist_add_check_24"
-            android:title="My events" />
+            android:title="@string/my_events" />
     </group>
-
-
-    <group android:id="@+id/guest">
-        <item android:title="Profile">
-            <menu>
-                <group android:checkableBehavior="single">
-                    <item
-                        android:id="@+id/login_btn"
-                        android:icon="@drawable/ic_baseline_login_24"
-                        android:title="Login" />
-                    <item
-                        android:id="@+id/register_btn"
-                        android:icon="@drawable/ic_baseline_person_add_alt_24"
-                        android:title="Register" />
-                </group>
-            </menu>
-        </item>
-    </group>
-
-    <group android:id="@+id/member">
+    <group android:id="@+id/guest"
+        android:checkableBehavior="single">
         <item
-
-            android:title="Profile">
-            <menu>
-                <group android:checkableBehavior="single">
-                    <item
-                        android:id="@+id/logout_btn"
-                        android:icon="@drawable/ic_baseline_logout_24"
-                        android:title="Logout" />
-                </group>
-            </menu>
-        </item>
+            android:id="@+id/login_btn"
+            android:icon="@drawable/ic_baseline_login_24"
+            android:title="@string/login" />
+        <item
+            android:id="@+id/register_btn"
+            android:icon="@drawable/ic_baseline_person_add_alt_24"
+            android:title="@string/register" />
+    </group>
+    <group android:id="@+id/member"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/logout_btn"
+            android:icon="@drawable/ic_baseline_logout_24"
+            android:title="@string/logout" />
     </group>
 </menu>

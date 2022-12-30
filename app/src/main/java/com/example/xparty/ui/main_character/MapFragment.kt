@@ -23,7 +23,7 @@ class MapFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        container?.removeAllViews()
         val view = inflater.inflate(R.layout.fragment_map, container, false)
 
         Configuration.getInstance().userAgentValue = context?.packageName

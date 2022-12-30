@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.xparty.R
 import com.example.xparty.databinding.FragmentRegisterBinding
+import com.example.xparty.ui.MainActivity
+import com.example.xparty.ui.main_character.PartySearchFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -33,6 +35,7 @@ class RegisterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        container?.removeAllViews()
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         auth = Firebase.auth
 
@@ -42,10 +45,8 @@ class RegisterFragment : Fragment() {
 
                 register()
 
-                val fragmentManager = activity?.supportFragmentManager
-                val fragmentTransaction = fragmentManager?.beginTransaction()
-                fragmentTransaction?.replace(R.id.nav_host_fragment, LoginFragment())
-                fragmentTransaction?.commit()
+                val mainActivityView = (activity as MainActivity)
+                mainActivityView.replaceFragment(LoginFragment(),getString(R.string.login))
 
             } else {
                 Toast.makeText(context, "Failed to register", Toast.LENGTH_SHORT).show()

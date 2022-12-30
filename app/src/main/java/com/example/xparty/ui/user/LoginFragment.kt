@@ -34,6 +34,7 @@ class LoginFragment:Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        container?.removeAllViews()
         _binding = FragmentLoginBinding.inflate(inflater,container,false)
         auth = Firebase.auth
         val db = Firebase.firestore
@@ -52,12 +53,8 @@ class LoginFragment:Fragment() {
                                 editor?.putBoolean("type", document.get("type") as Boolean)
                                 editor?.apply()
 
-                                //TODO: fix update of side drawer after login
-                                val fragmentManager = activity?.supportFragmentManager
-                                val fragmentTransaction = fragmentManager?.beginTransaction()
-                                fragmentTransaction?.replace(R.id.nav_host_fragment, PartySearchFragment())
-                                fragmentTransaction?.commit()
-
+                                val mainActivityView = (activity as MainActivity)
+                                mainActivityView.replaceFragment(PartySearchFragment(),getString(R.string.MainPage))
                             }else{
                                 continue
                             }

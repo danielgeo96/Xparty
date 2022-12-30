@@ -4,4 +4,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="MainPage">Main Page</string>
     <string name="search_party">Search Party</string>
+    <string name="event_history">Event history</string>
+    <string name="favorites_events">Favorites events</string>
+    <string name="add_event">Add event</string>
+    <string name="my_events">My events</string>
+    <string name="profile">Profile</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="logout">Logout</string>
 </resources>

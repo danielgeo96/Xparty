@@ -15,6 +15,7 @@ class AddPartyFragment:Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        container?.removeAllViews()
         _binding= AddPartyLayoutBinding.inflate(inflater,container,false)
         return binding.root
     }
