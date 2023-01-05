@@ -2,7 +2,6 @@ package com.example.xparty.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -10,16 +9,13 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import com.example.xparty.R
 import com.example.xparty.ui.user.LoginFragment
 import com.example.xparty.ui.user.RegisterFragment
 import com.example.xparty.ui.main_character.PartySearchFragment
 import com.example.xparty.ui.party_character.AddPartyFragment
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +23,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var navigationView: NavigationView
     private var isOpen: Boolean = false
-
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,6 +102,7 @@ class MainActivity : AppCompatActivity() {
         )
 
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         return if (isOpen) {
