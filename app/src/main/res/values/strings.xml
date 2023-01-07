@@ -12,4 +12,10 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="logout">Logout</string>
+    <string name="Guest">Guest</string>
+    <string name="header_second_text">Click login / register</string>
+    <string name="enter_party_name">Enter party name</string>
+    <string name="enter_party_description">Enter party description</string>
+    <string name="enter_party_location">Enter party location</string>
+    <string name="publish">Publish</string>
 </resources>

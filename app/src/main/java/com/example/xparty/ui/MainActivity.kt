@@ -6,20 +6,20 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
+import android.view.View.GONE
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.xparty.R
 import com.example.xparty.ui.user.LoginFragment
 import com.example.xparty.ui.user.RegisterFragment
-import com.example.xparty.ui.main_character.PartySearchFragment
-import com.example.xparty.ui.party_character.AddPartyFragment
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var navigationView: NavigationView
     private var isOpen: Boolean = false
+    lateinit var sharedPreferences: SharedPreferences
 
 
     @SuppressLint("MissingInflatedId")
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val sharedPreference = this.getSharedPreferences("pref", Context.MODE_PRIVATE)
+        sharedPreferences = this.getSharedPreferences("pref", Context.MODE_PRIVATE)
 
         // Call findViewById on the DrawerLayout
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -57,10 +58,13 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
 
             it.isChecked = true
+            val navController:NavController = Navigation.findNavController(this,R.id.nav_host_fragment)
 
             when (it.itemId) {
                 R.id.party_search_btn -> {
-                    replaceFragment(PartySearchFragment(), it.title.toString())
+                    navController.popBackStack()
+                    navController.navigate(R.id.SearchFragment)
+                    replaceFragment(it.title.toString())
                     true
                 }
                 R.id.events_user_history_btn -> {
@@ -72,7 +76,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.add_event_btn -> {
-                    replaceFragment(AddPartyFragment(), it.title.toString())
+                    navController.popBackStack()
+                    navController.navigate(R.id.addPartyFragment)
+                    replaceFragment(it.title.toString())
                     true
                 }
                 R.id.events_producer_history_btn -> {
@@ -80,19 +86,21 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.login_btn -> {
-                    replaceFragment(LoginFragment(), it.title.toString())
+                    navController.popBackStack()
+                    navController.navigate(R.id.LoginFragment)
+                    replaceFragment(it.title.toString())
                     true
                 }
                 R.id.register_btn -> {
-                    replaceFragment(RegisterFragment(), it.title.toString())
+                    navController.popBackStack()
+                    navController.navigate(R.id.RegisterFragment)
+                    replaceFragment(it.title.toString())
                     true
                 }
                 R.id.logout_btn -> {
-                    val editor = sharedPreference.edit()
-                    editor.putBoolean("isLogin", false)
-                    editor.apply()
-                    handleConnectionState(isLogin = false, type = false)
-
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("isLogin", false).apply()
+                    handleConnectionState()
                     true
                 }
                 else -> {
@@ -101,10 +109,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        handleConnectionState(
-            sharedPreference.getBoolean("isLogin", false) as Boolean,
-            sharedPreference.getBoolean("type", false) as Boolean
-        )
+        handleConnectionState()
 
     }
 
@@ -128,33 +133,33 @@ class MainActivity : AppCompatActivity() {
                 menu.setGroupVisible(R.id.producer_main, false)
                 menu.setGroupVisible(R.id.guest, false)
                 menu.setGroupVisible(R.id.member, true)
-
+                return
             }
             2 -> {
                 menu.setGroupVisible(R.id.member_main, true)
                 menu.setGroupVisible(R.id.producer_main, true)
                 menu.setGroupVisible(R.id.guest, false)
                 menu.setGroupVisible(R.id.member, true)
+                return
             }
             else -> {
                 menu.setGroupVisible(R.id.member_main, false)
                 menu.setGroupVisible(R.id.producer_main, false)
                 menu.setGroupVisible(R.id.guest, true)
                 menu.setGroupVisible(R.id.member, false)
-
+                return
             }
         }
     }
 
-    fun replaceFragment(fragment: Fragment, title: String) {
+    fun replaceFragment(title: String) {
         isOpen = false
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.nav_host_fragment, fragment)
-        fragmentTransaction.commit()
+
         drawerLayout.closeDrawers()
         setTitle(title)
         val menu: Menu = navigationView.menu
+        handleConnectionState()
+
         when (title) {
             getString(R.string.MainPage) -> {
                 menu.getItem(0).isChecked = true
@@ -183,9 +188,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun handleConnectionState(isLogin: Boolean, type: Boolean) {
+    fun handleConnectionState() {
+        var isLogin: Boolean = sharedPreferences.getBoolean("isLogin", false)
+        var isProducer: Boolean = sharedPreferences.getBoolean("userType" , false)
         if (isLogin) {
-            if (type) {
+            if (isProducer) {
                 setDrawerMenuItems(2)
             } else {
                 setDrawerMenuItems(1)
@@ -193,6 +200,26 @@ class MainActivity : AppCompatActivity() {
         } else {
             setDrawerMenuItems(0)
         }
+        setNavHeaderView()
     }
+
+    private fun setNavHeaderView(){
+        var view: View = navigationView.getHeaderView(0)
+        var fullName : TextView = view.findViewById(R.id.full_name_header)
+        var email: TextView = view.findViewById(R.id.email_header)
+        var img : ImageView = view.findViewById(R.id.header_image_view)
+
+        if(sharedPreferences.getBoolean("isLogin", false)){
+            fullName.text = sharedPreferences.getString("fullName", null)
+            email.text = sharedPreferences.getString("email",null)
+            //TODO: ADD IMG SUPPORT
+        }else{
+            fullName.text = getString(R.string.Guest)
+            email.text = getString(R.string.header_second_text)
+            img.visibility = GONE
+        }
+    }
+
+
 
 }

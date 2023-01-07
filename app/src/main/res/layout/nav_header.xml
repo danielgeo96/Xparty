@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/header_image_view"
             android:layout_width="80dp"
             android:layout_height="80dp"
             tools:srcCompat="@tools:sample/avatars" />

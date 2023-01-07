@@ -1,4 +1,4 @@
-package com.example.xparty.data.Repository
+package com.example.xparty.data.repository
 import android.app.Application
 import com.example.xparty.data.Party
 import com.example.xparty.data.User

@@ -10,8 +10,11 @@ data class Party(
     @ColumnInfo(name = "description")
     val partyDescription:String,
     @ColumnInfo(name = "Location")
-    val partyLocation:String
+    val partyLocation:String,
+    @ColumnInfo(name = "userId")
+    val userId: String?
 ){
     @PrimaryKey(autoGenerate = true)
     var id:Int=0
 }
+
