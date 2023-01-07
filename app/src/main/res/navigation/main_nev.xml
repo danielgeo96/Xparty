@@ -3,19 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nev"
-    app:startDestination="@id/mainFragmentStart">
+    app:startDestination="@id/SearchFragment">
 
     <fragment
-        android:id="@+id/mainFragmentStart"
+        android:id="@+id/SearchFragment"
         android:name="com.example.xparty.ui.main_character.PartySearchFragment"
         android:label="main_fragement_layout"
         tools:layout="@layout/fragement_party_search" >
-        <action
-            android:id="@+id/action_mainFragmentStart_to_addUserFragment"
-            app:destination="@id/addUserFragment" />
-        <action
-            android:id="@+id/action_mainFragmentStart_to_addPartyFragment"
-            app:destination="@id/addPartyFragment" />
         <action
             android:id="@+id/action_mainFragmentStart_to_mapFragment"
             app:destination="@id/mapFragment" />
@@ -24,22 +18,19 @@
         android:id="@+id/addPartyFragment"
         android:name="com.example.xparty.ui.party_character.AddPartyFragment"
         android:label="add_party_layout"
-        tools:layout="@layout/add_party_layout" >
-        <action
-            android:id="@+id/action_addPartyFragment_to_mainFragmentStart"
-            app:destination="@id/mainFragmentStart" />
-    </fragment>
+        tools:layout="@layout/add_party_layout" />
     <fragment
-        android:id="@+id/addUserFragment"
+        android:id="@+id/RegisterFragment"
         android:name="com.example.xparty.ui.user.RegisterFragment"
         android:label="add_user_layout"
-        tools:layout="@layout/fragment_register" >
-        <action
-            android:id="@+id/action_addUserFragment_to_mainFragmentStart"
-            app:destination="@id/mainFragmentStart" />
-    </fragment>
+        tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.xparty.ui.main_character.MapFragment"
         android:label="MapFragment" />
+    <fragment
+        android:id="@+id/LoginFragment"
+        android:name="com.example.xparty.ui.user.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>
