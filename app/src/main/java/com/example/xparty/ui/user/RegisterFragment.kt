@@ -1,5 +1,6 @@
 package com.example.xparty.ui.user
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -8,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.xparty.R
 import com.example.xparty.databinding.FragmentRegisterBinding
 import com.example.xparty.ui.MainActivity
@@ -27,8 +30,10 @@ class RegisterFragment : Fragment() {
     private lateinit var mPassword: String
     private lateinit var mPasswordConfirmed: String
     private lateinit var mPhone: String
+    private lateinit var img:Uri
     private lateinit var auth: FirebaseAuth
     private var mIsProducer : Boolean = false
+    private val TAG : String = "RegisterFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,8 +50,13 @@ class RegisterFragment : Fragment() {
 
                 register()
 
+                //change fragment
                 val mainActivityView = (activity as MainActivity)
-                mainActivityView.replaceFragment(LoginFragment(),getString(R.string.login))
+                val navController: NavController = Navigation.findNavController(mainActivityView,
+                    R.id.nav_host_fragment)
+                navController.popBackStack()
+                navController.navigate(R.id.LoginFragment)
+                mainActivityView.replaceFragment("Login Page")
 
             } else {
                 Toast.makeText(context, "Failed to register", Toast.LENGTH_SHORT).show()
@@ -154,24 +164,14 @@ class RegisterFragment : Fragment() {
                         "email" to mEmail,
                         "phoneNumber" to mPhone,
                         "userId" to auth.currentUser?.uid,
-                        "type" to mIsProducer
+                        "userType" to mIsProducer,
+//                        "userImg" to img
                     )
 
-                    // Add a new document with a generated ID
-                    db.collection("users")
-                        .add(user)
-                        .addOnSuccessListener { documentReference ->
-                            Log.d(
-                                "TAG",
-                                "DocumentSnapshot added with ID: ${documentReference.id}"
-                            )
-                        }
-                        .addOnFailureListener { e ->
-                            Log.w("TAG", "Error adding document", e)
-                        }
+                    db.collection("users").document(auth.currentUser?.uid.toString()).set(user)
 
                 } else {
-                    Log.w("TAG", "createUserWithEmail:failure", task.exception)
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
                         context, "Authentication failed.",
                         Toast.LENGTH_SHORT
