@@ -3,7 +3,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "parties")
+@Entity(tableName = "Parties")
 data class Party(
     @ColumnInfo(name = "name")
     val partyName:String,

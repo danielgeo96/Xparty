@@ -1,23 +1,22 @@
 package com.example.xparty.data.local_db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.xparty.data.Party
 
 
 @Dao
 interface PartiesDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun addParty(party: Party)
+    @Update
+    suspend fun updateParty(party: Party)
 
     @Delete
-    fun deleteParty(party: Party)
+    suspend fun deleteParty(party: Party)
 
-    @Query("SELECT * FROM parties")
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun AddParty(party: Party)
+
+    @Query("SELECT * FROM Parties")
     fun getAllParties() : LiveData<List<Party>>
 }

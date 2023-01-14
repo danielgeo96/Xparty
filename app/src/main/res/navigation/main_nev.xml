@@ -11,8 +11,8 @@
         android:label="main_fragement_layout"
         tools:layout="@layout/fragement_party_search" >
         <action
-            android:id="@+id/action_mainFragmentStart_to_mapFragment"
-            app:destination="@id/mapFragment" />
+            android:id="@+id/action_SearchFragment_to_mapFragment"
+            app:destination="@id/MapFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPartyFragment"
@@ -25,12 +25,12 @@
         android:label="add_user_layout"
         tools:layout="@layout/fragment_register" />
     <fragment
-        android:id="@+id/mapFragment"
-        android:name="com.example.xparty.ui.main_character.MapFragment"
-        android:label="MapFragment" />
-    <fragment
         android:id="@+id/LoginFragment"
         android:name="com.example.xparty.ui.user.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/MapFragment"
+        android:name="com.example.xparty.ui.main_character.MapFragment"
+        android:label="MapFragment" />
 </navigation>

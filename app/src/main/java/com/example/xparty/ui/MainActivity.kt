@@ -1,9 +1,10 @@
 package com.example.xparty.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -11,16 +12,20 @@ import android.view.View.GONE
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.xparty.R
-import com.example.xparty.ui.user.LoginFragment
-import com.example.xparty.ui.user.RegisterFragment
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
@@ -28,6 +33,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigationView: NavigationView
     private var isOpen: Boolean = false
     lateinit var sharedPreferences: SharedPreferences
+    private var isReadPermissionGranted = false
+    private var isWritePermissionnGranted = false
+    private var isInterntPermissionGranted = false
+    private var isLoctionPermissionGranted = false
+    private val permissionRequestLauncher: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
+        {
+            permissions->
+            isReadPermissionGranted = permissions[Manifest.permission.READ_EXTERNAL_STORAGE]?:isReadPermissionGranted
+            isLoctionPermissionGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION]?:isLoctionPermissionGranted
+            isWritePermissionnGranted = permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE]?:isWritePermissionnGranted
+            isInterntPermissionGranted = permissions[Manifest.permission.ACCESS_NETWORK_STATE]?:isInterntPermissionGranted
+        }
+
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -108,9 +128,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
+        requestPermissions()
         handleConnectionState()
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -152,14 +171,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     fun replaceFragment(title: String) {
         isOpen = false
-
         drawerLayout.closeDrawers()
         setTitle(title)
         val menu: Menu = navigationView.menu
         handleConnectionState()
-
         when (title) {
             getString(R.string.MainPage) -> {
                 menu.getItem(0).isChecked = true
@@ -188,6 +206,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun requestPermissions()
+    {
+        isReadPermissionGranted = ContextCompat.checkSelfPermission(this,
+        Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        isLoctionPermissionGranted = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        isWritePermissionnGranted = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        isInterntPermissionGranted = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED
+        val premissionRequestArray :MutableList<String> = ArrayList()
+        if(!isReadPermissionGranted) premissionRequestArray.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if(!isLoctionPermissionGranted) premissionRequestArray.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        if(!isWritePermissionnGranted) premissionRequestArray.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if(!isInterntPermissionGranted) premissionRequestArray.add(Manifest.permission.ACCESS_NETWORK_STATE)
+        if(premissionRequestArray.isNotEmpty()) permissionRequestLauncher.launch(premissionRequestArray.toTypedArray())
+
+
+    }
+
+
     fun handleConnectionState() {
         var isLogin: Boolean = sharedPreferences.getBoolean("isLogin", false)
         var isProducer: Boolean = sharedPreferences.getBoolean("userType" , false)
@@ -204,10 +243,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setNavHeaderView(){
-        var view: View = navigationView.getHeaderView(0)
-        var fullName : TextView = view.findViewById(R.id.full_name_header)
-        var email: TextView = view.findViewById(R.id.email_header)
-        var img : ImageView = view.findViewById(R.id.header_image_view)
+        val view: View = navigationView.getHeaderView(0)
+        val fullName : TextView = view.findViewById(R.id.full_name_header)
+        val email: TextView = view.findViewById(R.id.email_header)
+        val img : ImageView = view.findViewById(R.id.header_image_view)
 
         if(sharedPreferences.getBoolean("isLogin", false)){
             fullName.text = sharedPreferences.getString("fullName", null)
