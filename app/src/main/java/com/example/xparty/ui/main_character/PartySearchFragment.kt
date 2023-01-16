@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -24,7 +25,6 @@ class PartySearchFragment : Fragment() {
     ): View? {
         container?.removeAllViews()
         _binding = FragementPartySearchBinding.inflate(inflater, container, false)
-
         binding.floatingActionButton.setOnClickListener {
             //TODO: fix crash when click after login.
             view?.findNavController()?.navigate(R.id.action_mainFragmentStart_to_mapFragment)

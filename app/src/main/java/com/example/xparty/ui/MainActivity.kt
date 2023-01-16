@@ -132,6 +132,7 @@ class MainActivity : AppCompatActivity() {
         requestPermissions()
         handleConnectionState()
 
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

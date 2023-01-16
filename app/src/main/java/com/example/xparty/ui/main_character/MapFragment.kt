@@ -46,14 +46,9 @@ class MapFragment : Fragment() {
         mapController = map.controller
         mapController.setZoom(9.5)
         map.setMultiTouchControls(true)
-
         binding.Mybtn.setOnClickListener{
             var r1 = viewModel.result.value.toString()
-            Toast.makeText(this.requireContext(),r1.toString(),Toast.LENGTH_SHORT).show()
         }
-
-
-//        startPoint = GeoPoint(48.8583, 2.2944);
         startPoint = GeoPoint(48.855,2.44);
         mapController.setCenter(startPoint)
         return binding.root
