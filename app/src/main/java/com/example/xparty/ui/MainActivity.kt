@@ -1,8 +1,10 @@
 package com.example.xparty.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -11,7 +13,10 @@ import android.view.View.GONE
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -20,7 +25,10 @@ import com.example.xparty.R
 import com.example.xparty.ui.user.LoginFragment
 import com.example.xparty.ui.user.RegisterFragment
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
@@ -28,6 +36,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigationView: NavigationView
     private var isOpen: Boolean = false
     lateinit var sharedPreferences: SharedPreferences
+    private var isReadPermissionGranted = false
+    private var isWritePermissionnGranted = false
+    private var isInterntPermissionGranted = false
+    private var isLoctionPermissionGranted = false
+    private val permissionRequestLauncher: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
+        {
+                permissions->
+            isReadPermissionGranted = permissions[Manifest.permission.READ_EXTERNAL_STORAGE]?:isReadPermissionGranted
+            isLoctionPermissionGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION]?:isLoctionPermissionGranted
+            isWritePermissionnGranted = permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE]?:isWritePermissionnGranted
+            isInterntPermissionGranted = permissions[Manifest.permission.ACCESS_NETWORK_STATE]?:isInterntPermissionGranted
+        }
 
 
     @SuppressLint("MissingInflatedId")
@@ -108,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
+        requestPermissions()
         handleConnectionState()
 
     }
@@ -123,6 +144,26 @@ class MainActivity : AppCompatActivity() {
             isOpen = true
             true
         }
+    }
+
+    private fun requestPermissions()
+    {
+        isReadPermissionGranted = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        isLoctionPermissionGranted = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        isWritePermissionnGranted = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        isInterntPermissionGranted = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED
+        val premissionRequestArray :MutableList<String> = ArrayList()
+        if(!isReadPermissionGranted) premissionRequestArray.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if(!isLoctionPermissionGranted) premissionRequestArray.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        if(!isWritePermissionnGranted) premissionRequestArray.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if(!isInterntPermissionGranted) premissionRequestArray.add(Manifest.permission.ACCESS_NETWORK_STATE)
+        if(premissionRequestArray.isNotEmpty()) permissionRequestLauncher.launch(premissionRequestArray.toTypedArray())
+
+
     }
 
     private fun setDrawerMenuItems(index: Int) {

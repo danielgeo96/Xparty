@@ -10,8 +10,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.xparty.R
 import com.example.xparty.databinding.FragementPartySearchBinding
 import com.example.xparty.ui.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class PartySearchFragment : Fragment() {
     private var _binding: FragementPartySearchBinding? = null
     private val binding get() = _binding!!

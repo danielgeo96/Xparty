@@ -1,35 +1,47 @@
 package com.example.xparty.data.repository
-import android.app.Application
 import com.example.xparty.data.Party
 import com.example.xparty.data.User
-import com.example.xparty.data.local_db.DataBase
 import com.example.xparty.data.local_db.PartiesDao
 import com.example.xparty.data.local_db.UsersDao
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
-class MainRepository(application: Application) {
-    private var partiesDao : PartiesDao?
-    private  var usersDao : UsersDao?
-    init {
-        val db = DataBase.getDataBase(application.applicationContext)
-        partiesDao = db.PartiesDao()
-        usersDao = db.UsersDao()
-    }
-    fun getAllUsers() = usersDao?.getAllUsers()
-    fun getAllParties() = partiesDao?.getAllParties()
+@Singleton
+class MainRepository @Inject constructor(private val partiesDao: PartiesDao,
+private val usersDao: UsersDao) {
 
-    fun addParty(party: Party){
-        partiesDao?.addParty(party)
+
+    fun getAllUsers() = usersDao.getAllUsers()
+
+    fun getAllParties() = partiesDao.getAllParties()
+
+    suspend fun addParty(party: Party){
+        partiesDao.AddParty(party)
     }
-    fun addUser(user: User){
-        usersDao?.addUser(user)
+    suspend fun deleteParty(party: Party)
+    {
+        partiesDao.deleteParty(party)
     }
-    fun deleteUser(user:User){
-        usersDao?.deleteUser(user)
+    suspend fun  addUser(user: User)
+    {
+        usersDao.addUser(user)
     }
-    fun deleteParty(party: Party){
-        partiesDao?.deleteParty(party)
+    suspend fun  updateUser(user:User)
+    {
+        usersDao.updateUser(user)
     }
+
+    suspend fun  updateParty(party: Party)
+    {
+        partiesDao.updateParty(party)
+    }
+
+    suspend fun  deleteUser(user: User)
+    {
+        usersDao.deleteUser(user)
+    }
+
 
 
 }

@@ -13,14 +13,18 @@ abstract class DataBase : RoomDatabase(){
     abstract fun PartiesDao():PartiesDao
     abstract fun UsersDao() : UsersDao
 
-
-
     companion object{
         @Volatile
         private var instance : DataBase? =null
-        fun getDataBase(context: Context) = instance ?: synchronized(this){
-            Room.databaseBuilder(context.applicationContext,DataBase::class.java,"ItemsDB")
-                .allowMainThreadQueries().build()
+        fun getDataBase(context: Context) :DataBase {
+            return instance ?: synchronized(this){
+                Room.databaseBuilder(context.applicationContext,DataBase::class.java,"PartyXDB")
+                    .fallbackToDestructiveMigration().build().also {
+                        instance=it
+                    }
+
+
+            }
         }
     }
 }
