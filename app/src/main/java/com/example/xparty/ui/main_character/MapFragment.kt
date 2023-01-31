@@ -5,10 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
-import com.example.xparty.R
-import com.example.xparty.data.LocationProvider
+import com.example.xparty.utlis.LocationProvider
 import com.example.xparty.databinding.FragmentMapBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.api.IMapController
@@ -21,7 +19,7 @@ import org.osmdroid.views.MapView
 @AndroidEntryPoint
 class MapFragment : Fragment() {
 
-    private val viewModel:LocationProvider by viewModels()
+    private val viewModel: LocationProvider by viewModels()
     private lateinit var map : MapView
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!

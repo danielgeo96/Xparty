@@ -1,4 +1,5 @@
-package com.example.xparty.data
+package com.example.xparty.data.models
+
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -6,15 +7,17 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "parties")
 data class Party(
     @ColumnInfo(name = "name")
-    val partyName:String,
+    val partyName: String ="",
     @ColumnInfo(name = "description")
-    val partyDescription:String,
+    val partyDescription: String="",
     @ColumnInfo(name = "Location")
-    val partyLocation:String,
+    val partyLocation: String="",
     @ColumnInfo(name = "userId")
-    val userId: String?
-){
+    val userId: String?="",
+    @ColumnInfo(name = "eventId")
+    val eventId: String?=""
+) {
     @PrimaryKey(autoGenerate = true)
-    var id:Int=0
+    var id: Int =0
 }
 

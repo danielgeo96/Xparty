@@ -1,4 +1,4 @@
-package com.example.xparty.data
+package com.example.xparty.utlis
 import android.location.Location
 import android.location.LocationManager
 import androidx.lifecycle.MutableLiveData

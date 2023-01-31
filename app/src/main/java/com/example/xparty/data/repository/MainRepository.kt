@@ -1,6 +1,6 @@
 package com.example.xparty.data.repository
-import com.example.xparty.data.Party
-import com.example.xparty.data.User
+import com.example.xparty.data.models.Party
+import com.example.xparty.data.models.User
 import com.example.xparty.data.local_db.PartiesDao
 import com.example.xparty.data.local_db.UsersDao
 import javax.inject.Inject
@@ -27,7 +27,7 @@ private val usersDao: UsersDao) {
     {
         usersDao.addUser(user)
     }
-    suspend fun  updateUser(user:User)
+    suspend fun  updateUser(user: User)
     {
         usersDao.updateUser(user)
     }

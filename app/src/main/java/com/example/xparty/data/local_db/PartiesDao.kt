@@ -2,7 +2,7 @@ package com.example.xparty.data.local_db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.xparty.data.Party
+import com.example.xparty.data.models.Party
 
 
 @Dao

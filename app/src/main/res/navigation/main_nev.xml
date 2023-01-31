@@ -33,4 +33,9 @@
         android:name="com.example.xparty.ui.user.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/myEventsFragment"
+        android:name="com.example.xparty.ui.party_character.MyEventsFragment"
+        android:label="fragment_my_events"
+        tools:layout="@layout/fragment_my_events" />
 </navigation>
