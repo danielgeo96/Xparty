@@ -1,32 +1,41 @@
 package com.example.xparty.ui.main_character
-
+import android.location.Location
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.withStateAtLeast
 import com.example.xparty.R
 import com.example.xparty.data.LocationProvider
 import com.example.xparty.databinding.FragmentMapBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
+import kotlin.coroutines.CoroutineContext
 
 
 @AndroidEntryPoint
 class MapFragment : Fragment() {
 
-    private val viewModel:LocationProvider by viewModels()
-    private lateinit var map : MapView
+    private lateinit var map: MapView
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
-    private lateinit var startPoint:GeoPoint
+    private lateinit var startPoint: GeoPoint
     private lateinit var mapController: IMapController
+    private val viewModel: LocationProvider by viewModels()
+    private var locationBtnClicked:Boolean =false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,20 +47,43 @@ class MapFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        container?.removeAllViews()
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         Configuration.getInstance().userAgentValue = context?.packageName
         map = binding.map
         map.setTileSource(TileSourceFactory.MAPNIK)
+        startPoint = GeoPoint(0.0, 0.0)
         mapController = map.controller
-        mapController.setZoom(9.5)
         map.setMultiTouchControls(true)
-        binding.Mybtn.setOnClickListener{
-            var r1 = viewModel.result.value.toString()
+        binding.myBtn.setOnClickListener {
+            Toast.makeText(this.requireContext(), "Loading location", Toast.LENGTH_SHORT).show()
+             viewModel.result.observe(viewLifecycleOwner) { location ->
+                if (location != null) {
+                    startPoint.longitude=location.longitude
+                    startPoint.latitude=location.latitude
+                    binding.tvLon.text = startPoint.longitude.toString()
+                    binding.tvLat.text = startPoint.latitude.toString()
+                    putMarker(startPoint)
+                    mapController.setZoom(19.0);
+                    mapController.setCenter(startPoint)
+                }
+            }
         }
-        startPoint = GeoPoint(48.855,2.44);
-        mapController.setCenter(startPoint)
         return binding.root
     }
+
+
+
+    private fun putMarker(geoPoint: GeoPoint) {
+        val marker = Marker(map)
+        marker.position = geoPoint
+        marker.icon= ContextCompat.getDrawable(this.requireContext(),R.drawable.marker)
+        marker.title ="Your postion here"
+        marker.showInfoWindow()
+        map.overlays.add(marker)
+
+    }
+
+
+
 
 }

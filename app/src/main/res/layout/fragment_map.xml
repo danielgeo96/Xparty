@@ -10,8 +10,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
         <org.osmdroid.views.MapView
             android:id="@+id/map"
             tilesource="Mapnik"
@@ -40,7 +38,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Lat:" />
+                    android:text=":Lat" />
 
                 <TextView
                     android:id="@+id/tvLat"
@@ -53,7 +51,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Lon:" />
+                    android:text=":Lon" />
 
                 <TextView
                     android:id="@+id/tvLon"
@@ -73,12 +71,12 @@
                     android:textSize="12sp"
                     android:text="Find party" />
                 <Button
-                    android:id="@+id/Mybtn"
+                    android:id="@+id/myBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="12sp"
-                    android:text="my location " />
+                    android:text="location " />
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
