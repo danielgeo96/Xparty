@@ -2,7 +2,7 @@ package com.example.xparty.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.xparty.data.User
+import com.example.xparty.data.models.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

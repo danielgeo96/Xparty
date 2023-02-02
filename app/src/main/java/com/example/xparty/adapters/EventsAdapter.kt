@@ -6,15 +6,25 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.xparty.R
-import com.example.xparty.data.Party
+import com.example.xparty.data.models.Party
 
-class EventsAdapter(private val dataSet: List<Party>) :
+class EventsAdapter(private val callBack: EventListener) :
     RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
 
-    var onItemClick:((Party) -> Unit)? = null
-    var eventsData: List<Party> = emptyList()
+    private val events = ArrayList<Party>()
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    fun setEvents(events: Collection<Party>) {
+        this.events.clear()
+        this.events.addAll(events)
+        notifyDataSetChanged()
+    }
+
+    interface EventListener {
+        fun onEventClicked(event: Party)
+        fun onEventLongClicked(event: Party)
+    }
+
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view),View.OnClickListener,View.OnLongClickListener {
         private val eventName: TextView
         private val eventLocation: TextView
         private val eventDescription: TextView
@@ -24,16 +34,21 @@ class EventsAdapter(private val dataSet: List<Party>) :
             eventName = view.findViewById(R.id.row_view_name)
             eventLocation = view.findViewById(R.id.row_view_location)
             eventDescription = view.findViewById(R.id.row_view_description)
-
-            view.setOnClickListener {
-                onItemClick?.invoke(eventsData[adapterPosition])
-            }
         }
 
-        public fun bindData(party: Party, position: Int) {
+        public fun bindData(party: Party) {
             eventName.text = party.partyName
             eventLocation.text = party.partyLocation
             eventDescription.text = party.partyDescription
+        }
+
+        override fun onClick(v: View?) {
+            callBack.onEventClicked(events[adapterPosition])
+        }
+
+        override fun onLongClick(p0: View?): Boolean {
+            callBack.onEventLongClicked(events[adapterPosition])
+            return false
         }
     }
 
@@ -50,10 +65,10 @@ class EventsAdapter(private val dataSet: List<Party>) :
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.bindData(eventsData[position],position)
+        viewHolder.bindData(events[position])
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = events.size
 
 }
