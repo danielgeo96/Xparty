@@ -13,8 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.withStateAtLeast
 import com.example.xparty.R
-import com.example.xparty.data.LocationProvider
 import com.example.xparty.databinding.FragmentMapBinding
+import com.example.xparty.utlis.LocationProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import org.osmdroid.api.IMapController
