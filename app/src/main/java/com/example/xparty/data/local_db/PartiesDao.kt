@@ -2,7 +2,7 @@ package com.example.xparty.data.local_db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.xparty.data.Party
+import com.example.xparty.data.models.Party
 
 
 @Dao
@@ -16,6 +16,9 @@ interface PartiesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun AddParty(party: Party)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertParties(parties: List<Party>)
 
     @Query("SELECT * FROM Parties")
     fun getAllParties() : LiveData<List<Party>>

@@ -1,13 +1,15 @@
 package com.example.xparty.di
 import android.content.Context
 import android.location.LocationManager
-import com.example.xparty.data.api_eventbrite.AuthApi
+import androidx.core.content.ContextCompat
 import com.example.xparty.data.local_db.DataBase
+import com.example.xparty.data.remote_db.EventsService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
@@ -21,17 +23,17 @@ class AppMoude {
     @Provides
     @Singleton
     fun provideRetofit(gson: Gson):Retrofit{
-        return Retrofit.Builder().baseUrl("https://www.eventbrite.com")
+        return Retrofit.Builder().baseUrl("https://app.ticketmaster.com/discovery/v2/")
             .addConverterFactory(GsonConverterFactory.create(gson)).build()
     }
 
     @Provides
+    @Singleton
     fun provideGson() :Gson = GsonBuilder().create()
 
     @Provides
-    fun provideUserRemoteDataSource(retrofit: Retrofit) : AuthApi =
-        retrofit.create(AuthApi::class.java)
-
+    fun provideEventsService(retrofit: Retrofit) : EventsService =
+        retrofit.create(EventsService::class.java)
 
     @Provides
     @Singleton

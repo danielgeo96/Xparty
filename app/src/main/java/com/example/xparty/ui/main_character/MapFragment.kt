@@ -13,9 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.withStateAtLeast
 import com.example.xparty.R
-import com.example.xparty.data.LocationProvider
-import com.example.xparty.data.api_eventbrite.ApiViewModel
 import com.example.xparty.databinding.FragmentMapBinding
+import com.example.xparty.utlis.LocationProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import org.osmdroid.api.IMapController
@@ -36,7 +35,8 @@ class MapFragment : Fragment() {
     private lateinit var startPoint: GeoPoint
     private lateinit var mapController: IMapController
     private val viewModel: LocationProvider by viewModels()
-    private val apiViewModel: ApiViewModel by viewModels()
+    private var locationBtnClicked:Boolean =false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +54,6 @@ class MapFragment : Fragment() {
         startPoint = GeoPoint(0.0, 0.0)
         mapController = map.controller
         map.setMultiTouchControls(true)
-        Toast.makeText(requireContext(),"${apiViewModel.user.value}",Toast.LENGTH_SHORT).show()
         binding.myBtn.setOnClickListener {
             Toast.makeText(this.requireContext(), "Loading location", Toast.LENGTH_SHORT).show()
              viewModel.result.observe(viewLifecycleOwner) { location ->

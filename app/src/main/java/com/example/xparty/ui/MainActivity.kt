@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -55,6 +56,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //set always dark mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         sharedPreferences = this.getSharedPreferences("pref", Context.MODE_PRIVATE)
 
@@ -103,7 +107,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.events_producer_history_btn -> {
-                    Toast.makeText(this, "My events", Toast.LENGTH_SHORT).show()
+                    navController.popBackStack()
+                    navController.navigate(R.id.myEventsFragment)
+                    replaceFragment(it.title.toString())
                     true
                 }
                 R.id.login_btn -> {
