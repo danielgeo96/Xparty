@@ -3,6 +3,7 @@ import android.content.Context
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.example.xparty.data.local_db.DataBase
+import com.example.xparty.data.remote_db.EventsService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -22,13 +23,17 @@ class AppMoude {
     @Provides
     @Singleton
     fun provideRetofit(gson: Gson):Retrofit{
-        return Retrofit.Builder().baseUrl("www.google.com")
+        return Retrofit.Builder().baseUrl("https://app.ticketmaster.com/discovery/v2/")
             .addConverterFactory(GsonConverterFactory.create(gson)).build()
     }
 
     @Provides
     @Singleton
     fun provideGson() :Gson = GsonBuilder().create()
+
+    @Provides
+    fun provideEventsService(retrofit: Retrofit) : EventsService =
+        retrofit.create(EventsService::class.java)
 
     @Provides
     @Singleton

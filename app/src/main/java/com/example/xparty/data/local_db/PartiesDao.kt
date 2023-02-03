@@ -17,6 +17,9 @@ interface PartiesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun AddParty(party: Party)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertParties(parties: List<Party>)
+
     @Query("SELECT * FROM Parties")
     fun getAllParties() : LiveData<List<Party>>
 }
