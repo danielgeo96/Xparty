@@ -11,9 +11,6 @@ import javax.inject.Singleton
 class MainRepository @Inject constructor(private val partiesDao: PartiesDao,
 private val usersDao: UsersDao) {
 
-
-    fun getAllUsers() = usersDao.getAllUsers()
-
     fun getAllParties() = partiesDao.getAllParties()
 
     suspend fun addParty(party: Party){
@@ -23,25 +20,10 @@ private val usersDao: UsersDao) {
     {
         partiesDao.deleteParty(party)
     }
-    suspend fun  addUser(user: User)
-    {
-        usersDao.addUser(user)
-    }
-    suspend fun  updateUser(user: User)
-    {
-        usersDao.updateUser(user)
-    }
 
     suspend fun  updateParty(party: Party)
     {
         partiesDao.updateParty(party)
     }
-
-    suspend fun  deleteUser(user: User)
-    {
-        usersDao.deleteUser(user)
-    }
-
-
 
 }
