@@ -19,13 +19,13 @@ constructor(private val locationManager: LocationManager,
             ):ViewModel() {
 
 
-    private val locationLiveData = MutableLiveData<Location?>()
+    private var locationLiveData = MutableLiveData<Location?>()
     val result: LiveData<Location?>
         get() = locationLiveData
 
     init {
         viewModelScope.launch {
-            getCurrentLocation()
+            locationLiveData.value = getCurrentLocation()
             requestLocationUpdates()
         }
     }

@@ -18,8 +18,8 @@ data class User(
     val photo:String?="",
     @ColumnInfo(name = "userId")
     val userId:String="",){
-    @PrimaryKey(autoGenerate = true)
-    var id:Int=0
+    @PrimaryKey
+    var id:String=""
 
 
 }

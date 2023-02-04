@@ -4,9 +4,12 @@ import androidx.lifecycle.*
 import com.example.xparty.data.models.User
 import com.example.xparty.data.repository.AuthRepository
 import com.example.xparty.utlis.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel (private val authRepository: AuthRepository) : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val authRepository: AuthRepository) : ViewModel() {
 
     private val _userSignInStatus = MutableLiveData<Resource<User>>()
     val userSignInStatus : LiveData<Resource<User>> = _userSignInStatus
@@ -29,10 +32,4 @@ class LoginViewModel (private val authRepository: AuthRepository) : ViewModel() 
         }
     }
 
-    class LoginViewModelFactory(private val repo: AuthRepository) : ViewModelProvider.NewInstanceFactory(){
-
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return LoginViewModel(repo) as T
-        }
-    }
 }

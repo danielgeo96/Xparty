@@ -26,6 +26,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private val TAG: String = "LoginFragment"
@@ -33,9 +34,7 @@ class LoginFragment : Fragment() {
     private lateinit var mEmail: String
     private lateinit var mPassword: String
     private var editor: Editor? = null
-    private val viewModel: LoginViewModel by viewModels(){
-        LoginViewModel.LoginViewModelFactory(AuthRepositoryFirebase())
-    }
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

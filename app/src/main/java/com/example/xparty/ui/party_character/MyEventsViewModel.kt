@@ -7,11 +7,13 @@ import androidx.lifecycle.*
 import com.example.xparty.data.models.Party
 import com.example.xparty.data.repository.EventsRepository
 import com.example.xparty.utlis.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MyEventsViewModel(private val eventsRepository: EventsRepository, application: Application) : AndroidViewModel(
-    application
-) {
+@HiltViewModel
+class MyEventsViewModel@Inject constructor(private val eventsRepository: EventsRepository,
+                                           private val application: Application) : ViewModel() {
 
     private val sharedPreferences:SharedPreferences  = application.getSharedPreferences("pref", Context.MODE_PRIVATE)
     val userId : String = sharedPreferences.getString("userId","").toString()
@@ -33,9 +35,4 @@ class MyEventsViewModel(private val eventsRepository: EventsRepository, applicat
         eventsRepository.getMyEventsLiveData(_eventsStatus,userId)
     }
 
-    class MyEventsViewModelFactory(val eventsRepository: EventsRepository,val application: Application) : ViewModelProvider.NewInstanceFactory(){
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return MyEventsViewModel(eventsRepository, application) as T
-        }
-    }
 }
