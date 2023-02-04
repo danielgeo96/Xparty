@@ -58,6 +58,10 @@ class MyEventsFragment : Fragment() {
             override fun onEventLongClicked(event: Party) {
                 viewModel.deleteEvent(event.id)
             }
+
+            override fun onImgClick(event: Party) {
+                TODO("Not yet implemented")
+            }
         })
 
         viewModel.eventsStatus.observe(viewLifecycleOwner){
