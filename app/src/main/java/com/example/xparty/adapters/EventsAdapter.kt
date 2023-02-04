@@ -3,6 +3,7 @@ package com.example.xparty.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.xparty.R
@@ -22,24 +23,24 @@ class EventsAdapter(private val callBack: EventListener) :
     interface EventListener {
         fun onEventClicked(event: Party)
         fun onEventLongClicked(event: Party)
+        fun onImgClick(event: Party)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view),View.OnClickListener,View.OnLongClickListener {
         private val eventName: TextView
-        private val eventLocation: TextView
-        private val eventDescription: TextView
+        private val favBtn: ImageButton
 
         init {
             // Define click listener for the ViewHolder's View
             eventName = view.findViewById(R.id.row_view_name)
-            eventLocation = view.findViewById(R.id.row_view_location)
-            eventDescription = view.findViewById(R.id.row_view_description)
+            favBtn = view.findViewById(R.id.imageButton)
         }
 
         public fun bindData(party: Party) {
             eventName.text = party.partyName
-            eventLocation.text = party.partyLocation
-            eventDescription.text = party.partyDescription
+            favBtn.setOnClickListener {
+                callBack.onImgClick(events[adapterPosition])
+            }
         }
 
         override fun onClick(v: View?) {

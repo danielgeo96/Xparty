@@ -18,6 +18,8 @@ data class Party(
     val partyLocation: String="",
     @ColumnInfo(name = "userId")
     val userId: String?="",
+    @ColumnInfo(name = "isFav")
+    var isFav: Boolean=false,
     @PrimaryKey
     var id: String = ""
 ) {

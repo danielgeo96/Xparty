@@ -53,7 +53,6 @@ class AppMoude {
     @Provides
     fun provideUserDao(dataBase:DataBase) = dataBase.UsersDao()
 
-
     }
 
 

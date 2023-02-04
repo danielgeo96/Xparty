@@ -1,5 +1,7 @@
 package com.example.xparty.ui.main_character
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class PartySearchFragment : Fragment() {
     private var binding: FragementPartySearchBinding by autoCleared()
     private val viewModel: PartySearchFragmentViewModel by viewModels()
+    private var sharedPreferences: SharedPreferences? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,27 +32,37 @@ class PartySearchFragment : Fragment() {
     ): View? {
         container?.removeAllViews()
         binding = FragementPartySearchBinding.inflate(inflater, container, false)
+        sharedPreferences = context?.getSharedPreferences("pref",Context.MODE_PRIVATE)
         binding.floatingActionButton.setOnClickListener {
 
-            viewModel.events.observe(viewLifecycleOwner) {
-                when (it.status) {
-                    is Loading -> binding.partySearchProgressBar.isVisible = true
-                    is Success -> {
-                        if (!it.status.data.isNullOrEmpty()) {
-                            binding.partySearchProgressBar.isVisible = false
-                            Toast.makeText(requireContext(), "SUCCESSSSSSSSSS", Toast.LENGTH_SHORT)
-                                .show()
-                            val bundle = bundleOf("ListsItems" to it.status.data)
+            if(sharedPreferences?.getBoolean("isLogin",false)!!) {
 
-                            view?.findNavController()?.navigate(R.id.action_mainFragmentStart_to_mapFragment, bundle)
+                viewModel.events.observe(viewLifecycleOwner) {
+                    when (it.status) {
+                        is Loading -> binding.partySearchProgressBar.isVisible = true
+                        is Success -> {
+                            if (!it.status.data.isNullOrEmpty()) {
+                                binding.partySearchProgressBar.isVisible = false
+
+                                val bundle = bundleOf("ListsItems" to it.status.data)
+
+                                view?.findNavController()
+                                    ?.navigate(R.id.action_mainFragmentStart_to_mapFragment, bundle)
+                            }
+                        }
+                        is com.example.xparty.utlis.Error -> {
+                            binding.partySearchProgressBar.isVisible = false
+                            Toast.makeText(requireContext(), it.status.message, Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
-                    is com.example.xparty.utlis.Error -> {
-                        binding.partySearchProgressBar.isVisible = false
-                        Toast.makeText(requireContext(), it.status.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
                 }
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    "You must be logged in",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
         }

@@ -30,7 +30,6 @@ class LoginFragment : Fragment() {
 
     private val TAG: String = "LoginFragment"
     private var binding: FragmentLoginBinding by autoCleared()
-    private lateinit var auth: FirebaseAuth
     private lateinit var mEmail: String
     private lateinit var mPassword: String
     private var editor: Editor? = null
@@ -74,7 +73,7 @@ class LoginFragment : Fragment() {
                     editor?.putString("phone", it.status.data?.phone.toString())
                     editor?.putString("userId", it.status.data?.userId.toString())
                     editor?.putString("img", it.status.data?.photo.toString())
-                    editor?.putBoolean("isProducer",it.status.data!!.isProducer)
+                    editor?.putBoolean("producer",it.status.data!!.producer)
                     editor?.putBoolean("isLogin", true)
                     editor?.commit()
 
