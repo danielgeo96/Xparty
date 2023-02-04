@@ -27,7 +27,11 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.xparty.ui.main_character.MapFragment"
-        android:label="MapFragment" />
+        android:label="MapFragment" >
+        <action
+            android:id="@+id/action_mapFragment_to_partiesListFragment"
+            app:destination="@id/partiesListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/LoginFragment"
         android:name="com.example.xparty.ui.user.LoginFragment"
@@ -38,4 +42,9 @@
         android:name="com.example.xparty.ui.party_character.MyEventsFragment"
         android:label="fragment_my_events"
         tools:layout="@layout/fragment_my_events" />
+    <fragment
+        android:id="@+id/partiesListFragment"
+        android:name="com.example.xparty.ui.party_character.PartiesListFragment"
+        android:label="fragment_parties_list"
+        tools:layout="@layout/fragment_parties_list" />
 </navigation>

@@ -15,5 +15,5 @@ class AllEventsRepository @Inject constructor(
     fun getAllEvents() = performFetchingAndSaving(
         { localDataSource.getAllParties() },
         { remoteDataSource.getEvents() },
-        { localDataSource.insertParties(it.events) })
+        { localDataSource.insertParties(it._embedded.events) })
 }

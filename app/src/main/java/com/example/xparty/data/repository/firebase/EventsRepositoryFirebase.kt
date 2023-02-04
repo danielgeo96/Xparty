@@ -23,7 +23,7 @@ class EventsRepositoryFirebase : EventsRepository {
         withContext(Dispatchers.IO) {
             safeCall {
                 val eventId = eventsRef.document().id
-                val event = Party(title, description, location,userId, eventId)
+                val event = Party(title, description, location,userId)
                 val addition = eventsRef.document(eventId).set(event).await()
                 Resource.success(addition)
             }
