@@ -70,19 +70,22 @@
                     android:layout_weight="1"
                     android:textSize="12sp"
                     android:text="Find party" />
+
                 <Button
-                    android:id="@+id/myBtn"
+                    android:id="@+id/my_location_map_fragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="12sp"
-                    android:text="location " />
+                    android:text="Self Position"
+                    android:textSize="12sp" />
+
                 <Button
+                    android:id="@+id/list_view_map_fragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="12sp"
-                    android:text="Party list" />
+                    android:text="List View"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
