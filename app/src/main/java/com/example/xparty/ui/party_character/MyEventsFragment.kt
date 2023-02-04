@@ -23,15 +23,15 @@ import com.example.xparty.ui.MainActivity
 import com.example.xparty.utlis.Loading
 import com.example.xparty.utlis.Success
 import com.example.xparty.utlis.autoCleared
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.internal.Contexts.getApplication
 
+
+@AndroidEntryPoint
 class MyEventsFragment : Fragment() {
 
     private var binding: FragmentMyEventsBinding by autoCleared()
-    private val viewModel: MyEventsViewModel by viewModels {
-        MyEventsViewModel.MyEventsViewModelFactory(EventsRepositoryFirebase(), (context as MainActivity).application)
-    }
-
+    private val viewModel: MyEventsViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

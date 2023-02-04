@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity() {
 
     fun handleConnectionState() {
         var isLogin: Boolean = sharedPreferences.getBoolean("isLogin", false)
-        var isProducer: Boolean = sharedPreferences.getBoolean("isProducer" , false)
+        var isProducer: Boolean = sharedPreferences.getBoolean("producer" , false)
         if (isLogin) {
             if (isProducer) {
                 setDrawerMenuItems(2)

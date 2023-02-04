@@ -16,7 +16,9 @@ import com.example.xparty.databinding.FragmentPartiesListBinding
 import com.example.xparty.utlis.Loading
 import com.example.xparty.utlis.Success
 import com.example.xparty.utlis.autoCleared
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PartiesListFragment : Fragment() {
 
     private var binding: FragmentPartiesListBinding by autoCleared()

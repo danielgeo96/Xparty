@@ -7,7 +7,7 @@ import com.example.xparty.data.models.Party
 import com.example.xparty.data.models.User
 
 
-@Database(entities = [Party::class, User::class],version = 4, exportSchema = false)
+@Database(entities = [Party::class, User::class],version = 5, exportSchema = false)
 abstract class DataBase : RoomDatabase(){
 
     abstract fun PartiesDao():PartiesDao

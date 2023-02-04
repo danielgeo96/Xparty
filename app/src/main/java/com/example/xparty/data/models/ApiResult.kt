@@ -4,5 +4,4 @@ data class ApiResult(
 val name:String,
 val id:String
 
-){
-}
+)

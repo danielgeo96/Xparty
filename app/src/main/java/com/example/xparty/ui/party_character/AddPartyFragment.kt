@@ -22,7 +22,9 @@ import com.example.xparty.utlis.Loading
 import com.example.xparty.utlis.Success
 import com.example.xparty.utlis.autoCleared
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddPartyFragment : Fragment() {
 
     private var TAG: String = "AddPartyFragment"
@@ -30,9 +32,7 @@ class AddPartyFragment : Fragment() {
     private lateinit var eventTitle: String
     private lateinit var eventLocation: String
     private lateinit var eventDescription: String
-    private val viewModel : AddPartyViewModel by viewModels {
-        AddPartyViewModel.AddPartyViewModelFactory(EventsRepositoryFirebase(), (context as MainActivity).application)
-    }
+    private val viewModel : AddPartyViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
