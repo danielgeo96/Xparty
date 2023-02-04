@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
                     editor?.putString("phone", it.status.data?.phone.toString())
                     editor?.putString("userId", it.status.data?.userId.toString())
                     editor?.putString("img", it.status.data?.photo.toString())
-                    it.status.data?.let { it1 -> editor?.putBoolean("isProducer", it1.isProducer) }
+                    editor?.putBoolean("isProducer",it.status.data!!.isProducer)
                     editor?.putBoolean("isLogin", true)
                     editor?.commit()
 

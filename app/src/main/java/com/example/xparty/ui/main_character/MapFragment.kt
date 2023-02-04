@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.withStateAtLeast
+import androidx.navigation.findNavController
 import com.example.xparty.R
 import com.example.xparty.databinding.FragmentMapBinding
 import com.example.xparty.utlis.LocationProvider
@@ -48,13 +49,14 @@ class MapFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
+        val dataList = arguments?.get("ListsItems")
         Configuration.getInstance().userAgentValue = context?.packageName
         map = binding.map
         map.setTileSource(TileSourceFactory.MAPNIK)
         startPoint = GeoPoint(0.0, 0.0)
         mapController = map.controller
         map.setMultiTouchControls(true)
-        binding.myBtn.setOnClickListener {
+        binding.myLocationMapFragment.setOnClickListener {
             Toast.makeText(this.requireContext(), "Loading location", Toast.LENGTH_SHORT).show()
              viewModel.result.observe(viewLifecycleOwner) { location ->
                 if (location != null) {
@@ -67,6 +69,10 @@ class MapFragment : Fragment() {
                     mapController.setCenter(startPoint)
                 }
             }
+        }
+
+        binding.listViewMapFragment.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_mapFragment_to_partiesListFragment, arguments)
         }
         return binding.root
     }

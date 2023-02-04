@@ -6,6 +6,7 @@ import com.example.xparty.data.repository.AuthRepository
 import com.example.xparty.utlis.Resource
 import kotlinx.coroutines.launch
 
+
 class RegisterViewModel constructor(private val repository: AuthRepository) : ViewModel(){
 
     private val _userRegistrationStatus = MutableLiveData<Resource<User>>()

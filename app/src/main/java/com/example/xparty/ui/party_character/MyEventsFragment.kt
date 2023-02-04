@@ -56,7 +56,7 @@ class MyEventsFragment : Fragment() {
             }
 
             override fun onEventLongClicked(event: Party) {
-                viewModel.deleteEvent(event.eventId.toString())
+                viewModel.deleteEvent(event.id)
             }
         })
 
