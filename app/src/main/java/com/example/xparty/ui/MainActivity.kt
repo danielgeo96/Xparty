@@ -97,7 +97,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.favorites_events_btn -> {
-                    Toast.makeText(this, "Favorites events", Toast.LENGTH_SHORT).show()
+                    navController.popBackStack()
+                    navController.navigate(R.id.favoritesEventsFragment)
+                    replaceFragment(it.title.toString())
                     true
                 }
                 R.id.add_event_btn -> {
@@ -238,7 +240,7 @@ class MainActivity : AppCompatActivity() {
 
     fun handleConnectionState() {
         var isLogin: Boolean = sharedPreferences.getBoolean("isLogin", false)
-        var isProducer: Boolean = sharedPreferences.getBoolean("isProducer" , false)
+        var isProducer: Boolean = sharedPreferences.getBoolean("producer" , false)
         if (isLogin) {
             if (isProducer) {
                 setDrawerMenuItems(2)
