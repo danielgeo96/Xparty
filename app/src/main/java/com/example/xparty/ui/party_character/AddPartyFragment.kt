@@ -30,6 +30,9 @@ class AddPartyFragment : Fragment() {
     private lateinit var eventTitle: String
     private lateinit var eventLocation: String
     private lateinit var eventDescription: String
+    private var longitude: Double = 0.0
+    private var latitude: Double = 0.0
+    private var img = ""
     private val viewModel : AddPartyViewModel by viewModels {
         AddPartyViewModel.AddPartyViewModelFactory(EventsRepositoryFirebase(), (context as MainActivity).application)
     }
@@ -46,7 +49,7 @@ class AddPartyFragment : Fragment() {
 
             if (isValidEvenTitle() && isValidLocation() && isValidDescription()) {
                 bindingEventData()
-                viewModel.addEvent(eventTitle,eventDescription,eventLocation)
+                viewModel.addEvent(eventTitle,eventDescription,longitude,latitude,false,img)
             }
 
         }

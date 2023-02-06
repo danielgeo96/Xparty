@@ -18,10 +18,12 @@ class AddPartyViewModel(application: Application,private val eventsRepository: E
     private val _addEventStatus = MutableLiveData<Resource<Void>>()
     val addEventStatus:LiveData<Resource<Void>> = _addEventStatus
 
-    fun addEvent(title:String,description:String,location:String){
+    fun addEvent(title:String,description:String,longitude: Double,
+                 latitude:Double,isFav:Boolean,img:String){
         viewModelScope.launch {
             _addEventStatus.postValue(Resource.loading())
-            _addEventStatus.postValue(eventsRepository.addEvent(title,location,description,userId))
+            _addEventStatus.postValue(eventsRepository.addEvent(title,longitude,
+                latitude,description,userId,isFav,img))
         }
     }
 
