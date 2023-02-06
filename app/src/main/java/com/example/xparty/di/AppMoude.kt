@@ -1,15 +1,17 @@
 package com.example.xparty.di
+import android.app.Application
 import android.content.Context
 import android.location.LocationManager
-import androidx.core.content.ContextCompat
 import com.example.xparty.data.local_db.DataBase
 import com.example.xparty.data.remote_db.EventsService
+import com.example.xparty.data.repository.AuthRepository
+import com.example.xparty.data.repository.firebase.AuthRepositoryFirebase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
@@ -26,6 +28,7 @@ class AppMoude {
         return Retrofit.Builder().baseUrl("https://app.ticketmaster.com/discovery/v2/")
             .addConverterFactory(GsonConverterFactory.create(gson)).build()
     }
+
 
     @Provides
     @Singleton

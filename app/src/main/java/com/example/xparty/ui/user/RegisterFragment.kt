@@ -24,9 +24,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
     private var binding: FragmentRegisterBinding by autoCleared()
     private lateinit var mFullName: String
@@ -37,9 +39,7 @@ class RegisterFragment : Fragment() {
     private lateinit var img: Uri
     private var mIsProducer: Boolean = false
     private val TAG: String = "RegisterFragment"
-    private val viewModel: RegisterViewModel by viewModels(){
-        RegisterViewModel.RegisterViewModelFactory(AuthRepositoryFirebase())
-    }
+    private val viewModel: RegisterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
