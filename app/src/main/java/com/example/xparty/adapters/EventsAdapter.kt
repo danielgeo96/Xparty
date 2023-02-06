@@ -4,12 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.xparty.R
 import com.example.xparty.data.models.Party
+import com.example.xparty.databinding.RowViewBinding
 
-class EventsAdapter(private val callBack: EventListener) :
+class EventsAdapter(private val listener : EventListener) :
     RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
 
     private val events = ArrayList<Party>()
@@ -26,39 +29,39 @@ class EventsAdapter(private val callBack: EventListener) :
         fun onImgClick(event: Party)
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view),View.OnClickListener,View.OnLongClickListener {
-        private val eventName: TextView
-        private val favBtn: ImageButton
+    class ViewHolder(private val itemBinding: RowViewBinding,
+                     private val listener: EventListener) : RecyclerView.ViewHolder(itemBinding.root),View.OnClickListener,View.OnLongClickListener {
+
+        private lateinit var event : Party
 
         init {
             // Define click listener for the ViewHolder's View
-            eventName = view.findViewById(R.id.row_view_name)
-            favBtn = view.findViewById(R.id.imageButton)
+            itemBinding.root.setOnClickListener(this)
         }
 
-        public fun bindData(party: Party) {
-            eventName.text = party.partyName
-            favBtn.setOnClickListener {
-                callBack.onImgClick(events[adapterPosition])
+        fun bindData(item: Party) {
+            this.event = item
+            itemBinding.rowViewName.text = item.partyName
+            Glide.with(itemBinding.root).load(item.images).into(itemBinding.rowImgaeView)
+
+            itemBinding.rowFavButton.setOnClickListener {
+                listener.onImgClick(event)
             }
         }
 
         override fun onClick(v: View?) {
-            callBack.onEventClicked(events[adapterPosition])
+            listener.onEventClicked(event)
         }
 
         override fun onLongClick(p0: View?): Boolean {
-            callBack.onEventLongClicked(events[adapterPosition])
+            listener.onEventLongClicked(event)
             return false
         }
     }
 
-    // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.row_view, viewGroup, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = RowViewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return ViewHolder(binding,listener)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
