@@ -14,14 +14,19 @@ data class Party(
     @SerializedName("description")
     @ColumnInfo(name = "description")
     val partyDescription: String="",
-    @ColumnInfo(name = "Location")
-    val partyLocation: String="",
+    @ColumnInfo(name = "longitude")
+    val longitude: Double = 0.0,
+    @ColumnInfo(name = "latitude")
+    val latitude: Double = 0.0,
     @ColumnInfo(name = "userId")
     val userId: String?="",
     @ColumnInfo(name = "isFav")
     var isFav: Boolean=false,
+    @ColumnInfo(name = "image")
+    var images : String = "",
     @PrimaryKey
     var id: String = ""
 ) {
+
 }
 

@@ -17,14 +17,17 @@ class EventsRepositoryFirebase @Inject constructor():EventsRepository {
 
     override suspend fun addEvent(
         title: String,
-        location: String,
+        longitude: Double,
+        latitude:Double,
         description: String,
-        userId: String
+        userId: String,
+        isfav:Boolean,
+        img:String,
     ): Resource<Void> =
         withContext(Dispatchers.IO) {
             safeCall {
                 val eventId = eventsRef.document().id
-                val event = Party(title, description, location,userId)
+                val event = Party(title, description, longitude, latitude,userId,isfav,img)
                 val addition = eventsRef.document(eventId).set(event).await()
                 Resource.success(addition)
             }

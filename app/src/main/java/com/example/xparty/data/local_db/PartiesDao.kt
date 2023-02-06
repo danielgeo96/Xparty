@@ -23,6 +23,6 @@ interface PartiesDao {
     @Query("SELECT * FROM Parties")
     fun getAllParties() : LiveData<List<Party>>
 
-    @Query("SELECT * FROM parties where isFav=true")
+    @Query("SELECT * FROM parties where isFav=1")
     fun getAllFavParties() : List<Party>
 }
