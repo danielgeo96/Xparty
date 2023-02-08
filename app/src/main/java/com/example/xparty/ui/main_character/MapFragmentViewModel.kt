@@ -11,7 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class PartySearchFragmentViewModel @Inject constructor(
+class MapFragmentViewModel @Inject constructor(
     allEventsRepository: AllEventsRepository,
     eventsRepository: EventsRepository
 ) : ViewModel() {

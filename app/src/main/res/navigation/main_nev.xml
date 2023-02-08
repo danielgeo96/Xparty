@@ -12,7 +12,8 @@
         tools:layout="@layout/fragement_party_search" >
         <action
             android:id="@+id/action_mainFragmentStart_to_mapFragment"
-            app:destination="@id/mapFragment" />
+            app:destination="@id/mapFragment"
+            app:popUpTo="@id/SearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPartyFragment"
@@ -46,7 +47,11 @@
         android:id="@+id/partiesListFragment"
         android:name="com.example.xparty.ui.party_character.PartiesListFragment"
         android:label="fragment_parties_list"
-        tools:layout="@layout/fragment_parties_list" />
+        tools:layout="@layout/fragment_parties_list" >
+        <action
+            android:id="@+id/action_partiesListFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesEventsFragment"
         android:name="com.example.xparty.ui.party_character.FavoritesEventsFragment"

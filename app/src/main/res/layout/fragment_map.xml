@@ -10,6 +10,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/map_first_progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/map"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/map_second_progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/map"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <org.osmdroid.views.MapView
             android:id="@+id/map"
             tilesource="Mapnik"
@@ -64,17 +85,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="12sp"
-                    android:text="Find party" />
 
                 <Button
                     android:id="@+id/my_location_map_fragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:layout_weight="1"
                     android:text="Self Position"
                     android:textSize="12sp" />
@@ -83,6 +99,7 @@
                     android:id="@+id/list_view_map_fragment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:layout_weight="1"
                     android:text="List View"
                     android:textSize="12sp" />
