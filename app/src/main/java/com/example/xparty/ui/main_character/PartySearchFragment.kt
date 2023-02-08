@@ -3,6 +3,7 @@ package com.example.xparty.ui.main_character
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,7 @@ class PartySearchFragment : Fragment() {
     private var binding: FragementPartySearchBinding by autoCleared()
     private val viewModel: PartySearchFragmentViewModel by viewModels()
     private var sharedPreferences: SharedPreferences? = null
+    private val TAG = "PartySearchFragment"
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,32 +34,15 @@ class PartySearchFragment : Fragment() {
     ): View? {
         container?.removeAllViews()
         binding = FragementPartySearchBinding.inflate(inflater, container, false)
-        sharedPreferences = context?.getSharedPreferences("pref",Context.MODE_PRIVATE)
+        sharedPreferences = context?.getSharedPreferences("pref", Context.MODE_PRIVATE)
         binding.floatingActionButton.setOnClickListener {
 
-            if(sharedPreferences?.getBoolean("isLogin",false)!!) {
+            if (sharedPreferences?.getBoolean("isLogin", false)!!) {
 
-                viewModel.events.observe(viewLifecycleOwner) {
-                    when (it.status) {
-                        is Loading -> binding.partySearchProgressBar.isVisible = true
-                        is Success -> {
-                            if (!it.status.data.isNullOrEmpty()) {
-                                binding.partySearchProgressBar.isVisible = false
+                view?.findNavController()
+                    ?.navigate(R.id.action_mainFragmentStart_to_mapFragment)
 
-                                val bundle = bundleOf("ListsItems" to it.status.data)
-
-                                view?.findNavController()
-                                    ?.navigate(R.id.action_mainFragmentStart_to_mapFragment, bundle)
-                            }
-                        }
-                        is com.example.xparty.utlis.Error -> {
-                            binding.partySearchProgressBar.isVisible = false
-                            Toast.makeText(requireContext(), it.status.message, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                }
-            }else{
+            } else {
                 Toast.makeText(
                     requireContext(),
                     "You must be logged in",
