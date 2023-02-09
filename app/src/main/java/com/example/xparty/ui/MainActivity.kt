@@ -92,10 +92,6 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(it.title.toString())
                     true
                 }
-                R.id.events_user_history_btn -> {
-                    Toast.makeText(this, "Event history", Toast.LENGTH_SHORT).show()
-                    true
-                }
                 R.id.favorites_events_btn -> {
                     navController.popBackStack()
                     navController.navigate(R.id.favoritesEventsFragment)
@@ -214,26 +210,23 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.MainPage) -> {
                 menu.getItem(0).isChecked = true
             }
-            getString(R.string.event_history) -> {
+            getString(R.string.favorites_events) -> {
                 menu.getItem(1).isChecked = true
             }
-            getString(R.string.favorites_events) -> {
+            getString(R.string.add_event) -> {
                 menu.getItem(2).isChecked = true
             }
-            getString(R.string.add_event) -> {
+            getString(R.string.my_events) -> {
                 menu.getItem(3).isChecked = true
             }
-            getString(R.string.my_events) -> {
+            getString(R.string.login) -> {
                 menu.getItem(4).isChecked = true
             }
-            getString(R.string.login) -> {
+            getString(R.string.register) -> {
                 menu.getItem(5).isChecked = true
             }
-            getString(R.string.register) -> {
-                menu.getItem(6).isChecked = true
-            }
             getString(R.string.logout) -> {
-                menu.getItem(7).isChecked = true
+                menu.getItem(6).isChecked = true
             }
         }
     }

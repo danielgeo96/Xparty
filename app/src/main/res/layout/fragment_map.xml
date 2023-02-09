@@ -59,27 +59,27 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text=":Lat" />
+                    android:text="@string/lat" />
 
                 <TextView
                     android:id="@+id/tvLat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="\?"
+                    android:text="@string/start_point"
                     android:textAlignment="center" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text=":Lon" />
+                    android:text="@string/lon" />
 
                 <TextView
                     android:id="@+id/tvLon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="\?"
+                    android:text="@string/start_point"
                     android:textAlignment="center" />
             </LinearLayout>
             <LinearLayout
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_weight="1"
-                    android:text="Self Position"
+                    android:text="@string/self_position"
                     android:textSize="12sp" />
 
                 <Button
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_weight="1"
-                    android:text="List View"
+                    android:text="@string/list_view"
                     android:textSize="12sp" />
 
             </LinearLayout>

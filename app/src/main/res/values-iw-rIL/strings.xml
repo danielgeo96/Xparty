@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Xparty</string>
+    <string name="MainPage">דף הבית</string>
+    <string name="search_party">חפש אירוע</string>
+    <string name="favorites_events">מועדפים</string>
+    <string name="add_event">הוסף אירוע</string>
+    <string name="my_events">האירועים שלי</string>
+    <string name="profile">פרופיל</string>
+    <string name="login">התחבר</string>
+    <string name="register">הרשם</string>
+    <string name="logout">התנתק</string>
+    <string name="Guest">אורח</string>
+    <string name="header_second_text">לחץ על התחברות / הרשמה</string>
+    <string name="enter_party_name">שם האירוע</string>
+    <string name="enter_party_description">תיאור האירוע</string>
+    <string name="enter_party_location">מיקום האירוע</string>
+    <string name="publish">פרסם</string>
+    <string name="email">דואר אלקטרוני</string>
+    <string name="password">סיסמה</string>
+    <string name="lat">רוחב</string>
+    <string name="lon">אורך</string>
+    <string name="self_position">מיקום עצמי</string>
+    <string name="list_view">הצג ברשימה</string>
+    <string name="add_image">הוסף תמונה</string>
+    <string name="full_name">שם מלא</string>
+    <string name="confirm_password">סיסמה חוזרת</string>
+    <string name="phone_number">מספר פלאפון</string>
+    <string name="producers">מפיק</string>
+    <string name="cancel">בטל</string>
+    <string name="guest">אורח</string>
+    <string name="click_login_register">לחץ הרשמה / התחברות</string>
+    <string name="eventname">שם האירוע</string>
+</resources>

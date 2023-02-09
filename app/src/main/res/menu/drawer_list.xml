@@ -16,10 +16,6 @@
         android:id="@+id/member_main"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/events_user_history_btn"
-            android:icon="@drawable/ic_baseline_history_24"
-            android:title="@string/event_history" />
-        <item
             android:id="@+id/favorites_events_btn"
             android:icon="@drawable/ic_baseline_favorite_border_24"
             android:title="@string/favorites_events" />
