@@ -29,7 +29,6 @@ class AppMoude {
             .addConverterFactory(GsonConverterFactory.create(gson)).build()
     }
 
-
     @Provides
     @Singleton
     fun provideGson() :Gson = GsonBuilder().create()

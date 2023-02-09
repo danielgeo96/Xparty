@@ -1,15 +1,9 @@
 package com.example.xparty.ui.party_character
-
-import android.os.BaseBundle
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,14 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xparty.R
 import com.example.xparty.adapters.EventsAdapter
 import com.example.xparty.data.models.Party
-import com.example.xparty.data.repository.AllEventsRepository
-import com.example.xparty.data.repository.FavoritesEventsRepository
-import com.example.xparty.data.repository.firebase.EventsRepositoryFirebase
-import com.example.xparty.databinding.AddPartyLayoutBinding
 import com.example.xparty.databinding.FragmentPartiesListBinding
-import com.example.xparty.ui.MainActivity
-import com.example.xparty.utlis.Loading
-import com.example.xparty.utlis.Success
 import com.example.xparty.utlis.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
 

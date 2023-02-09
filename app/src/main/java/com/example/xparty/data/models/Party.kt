@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "parties")
 data class Party(
-
     @SerializedName("name")
     @ColumnInfo(name = "name")
     val partyName: String ="",

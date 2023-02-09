@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.xparty.data.models.Party
 import com.example.xparty.data.models.User
 
 
-@Database(entities = [Party::class, User::class], version = 10, exportSchema = false)
+@Database(entities = [Party::class, User::class], version = 11, exportSchema = false)
+@TypeConverters(UriConverter::class)
 abstract class DataBase : RoomDatabase() {
 
     abstract fun PartiesDao(): PartiesDao

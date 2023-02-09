@@ -1,4 +1,5 @@
 package com.example.xparty.data.models
+import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -15,7 +16,7 @@ data class User(
     @ColumnInfo(name = "producer")
     val producer:Boolean=false,
     @ColumnInfo(name = "photo")
-    val photo:String?="",
+    val photo:Uri?=null,
     @ColumnInfo(name = "userId")
     val userId:String="",){
     @PrimaryKey
