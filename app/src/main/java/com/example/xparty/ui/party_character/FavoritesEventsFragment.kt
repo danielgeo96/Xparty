@@ -56,7 +56,7 @@ class FavoritesEventsFragment : Fragment() {
             }
 
             override fun onImgClick(event: Party) {
-                TODO("Not yet implemented")
+                viewModel.removeFavEvent(event)
             }
         })
 
