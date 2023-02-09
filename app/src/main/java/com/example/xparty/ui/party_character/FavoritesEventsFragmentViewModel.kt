@@ -26,4 +26,10 @@ class FavoritesEventsFragmentViewModel @Inject constructor(
             instance.getFavParties(_eventsStatus)
         }
     }
+
+    fun removeFavEvent(event:Party){
+        viewModelScope.launch {
+            instance.removeFavParty(event)
+        }
+    }
 }
