@@ -68,7 +68,6 @@ class FavoritesEventsFragment : Fragment() {
 
                 is Success -> {
                     binding.favEventsProgressBar.isVisible = false
-
                     (binding.favEventsRecycler.adapter as EventsAdapter).setEvents(it.status.data!!)
                 }
 

@@ -29,7 +29,7 @@ class FavoritesEventsFragmentViewModel @Inject constructor(
 
     fun removeFavEvent(event:Party){
         viewModelScope.launch {
-            instance.removeFavParty(event)
+            instance.removeFavParty(_eventsStatus,event)
         }
     }
 }

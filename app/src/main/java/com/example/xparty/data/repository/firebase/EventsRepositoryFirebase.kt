@@ -27,7 +27,7 @@ class EventsRepositoryFirebase @Inject constructor():EventsRepository {
         withContext(Dispatchers.IO) {
             safeCall {
                 val eventId = eventsRef.document().id
-                val event = Party(title, description, longitude, latitude,userId,isfav,img)
+                val event = Party(title, description, longitude, latitude,userId,isfav,img,eventId)
                 val addition = eventsRef.document(eventId).set(event).await()
                 Resource.success(addition)
             }
