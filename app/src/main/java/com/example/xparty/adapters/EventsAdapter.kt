@@ -42,7 +42,7 @@ class EventsAdapter(private val listener : EventListener) :
         fun bindData(item: Party) {
             this.event = item
             itemBinding.rowViewName.text = item.partyName
-            Glide.with(itemBinding.root).load(item.images).into(itemBinding.rowImgaeView)
+            Glide.with(itemBinding.root).load(item.images).placeholder(R.drawable.event_party).into(itemBinding.rowImgaeView)
 
             itemBinding.rowFavButton.setOnClickListener {
                 listener.onImgClick(event)

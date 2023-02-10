@@ -24,7 +24,7 @@ class FavoritesEventsRepository @Inject constructor(
     suspend fun setFavParty(event: Party) {
         withContext(Dispatchers.IO){
             event.isFav = true
-            localDataSource.updateParty(event)
+            localDataSource.AddParty(event)
         }
     }
 
