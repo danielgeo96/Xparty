@@ -16,7 +16,7 @@ data class User(
     @ColumnInfo(name = "producer")
     val producer:Boolean=false,
     @ColumnInfo(name = "photo")
-    val photo:Uri?=null,
+    val photo:String="",
     @ColumnInfo(name = "userId")
     val userId:String="",){
     @PrimaryKey

@@ -1,15 +1,12 @@
 package com.example.xparty.ui.user
 
 import android.content.Intent
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,19 +17,11 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.xparty.R
-import com.example.xparty.data.repository.firebase.AuthRepositoryFirebase
 import com.example.xparty.databinding.FragmentRegisterBinding
 import com.example.xparty.ui.MainActivity
-import com.example.xparty.ui.main_character.PartySearchFragment
 import com.example.xparty.utlis.*
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
-
-
 
 
 @AndroidEntryPoint
@@ -53,9 +42,12 @@ class RegisterFragment : Fragment() {
             when (it) {
                 null -> {
                     binding.registerUserImage.setImageResource(R.drawable.profile_image)
+                    img = Uri.parse(
+                        "android.resource://com.example.xparty/"+R.drawable.profile_image)
                 }
             }
             Glide.with(this).load(it).into(binding.registerUserImage)
+            img = it
         }
 
     override fun onCreateView(
@@ -72,7 +64,7 @@ class RegisterFragment : Fragment() {
             bindingRegisterData()
             if (validateFullName() && validateEmail() && validatePassword() && validatePhone()) {
 
-                viewModel.createUser(mFullName, mEmail,mPassword,mPhone,img,mIsProducer)
+                viewModel.createUser(mFullName, mEmail,mPassword,mPhone,img.toString(),mIsProducer)
 
             } else {
                 Toast.makeText(context, "Failed to register", Toast.LENGTH_SHORT).show()
@@ -119,7 +111,6 @@ class RegisterFragment : Fragment() {
         mPassword = binding?.passwordEditText?.text.toString()
         mPasswordConfirmed = binding?.confirmPasswordEditText?.text.toString()
         mPhone = binding?.phoneEditText?.text.toString()
-        img =binding?.registerUserImage?.getTag(R.id.register_user_image) as Uri
         mIsProducer = binding?.isProducer?.isChecked == true
     }
 

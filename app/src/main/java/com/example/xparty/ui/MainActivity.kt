@@ -20,6 +20,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -35,7 +36,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainActvityViewModel by viewModels()
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var navigationView: NavigationView
@@ -176,8 +176,6 @@ class MainActivity : AppCompatActivity() {
         if(!isWritePermissionnGranted) premissionRequestArray.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if(!isInterntPermissionGranted) premissionRequestArray.add(Manifest.permission.ACCESS_NETWORK_STATE)
         if(premissionRequestArray.isNotEmpty()) permissionRequestLauncher.launch(premissionRequestArray.toTypedArray())
-
-
     }
 
     private fun setDrawerMenuItems(index: Int) {
@@ -265,15 +263,16 @@ class MainActivity : AppCompatActivity() {
             email.text = sharedPreferences.getString("email",null)
             val imageUriString = sharedPreferences.getString("imageUri", null)
             if (imageUriString != null) {
-                Glide.with(this).load(imageUriString).into(img)
+                Glide.with(this).load(imageUriString.toUri()).into(img)
+
             }
-            img.setOnClickListener{
-                val selectedImageUri = pickImageLunacher.launch(arrayOf("image/*"))
-                val editor = sharedPreferences.edit()
-                editor.putString("imageUri", selectedImageUri.toString())
-                editor.apply()
-                val user = sharedPreferences.all
-            }
+//            img.setOnClickListener{
+//                val selectedImageUri = pickImageLunacher.launch(arrayOf("image/*"))
+//                val editor = sharedPreferences.edit()
+//                editor.putString("imageUri", selectedImageUri.toString())
+//                editor.apply()
+//                val user = sharedPreferences.all
+//            }
             //TODO: ADD IMG SUPPORT
         }else{
             fullName.text = getString(R.string.Guest)
