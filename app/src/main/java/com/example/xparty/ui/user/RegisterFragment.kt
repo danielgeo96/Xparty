@@ -1,5 +1,6 @@
 package com.example.xparty.ui.user
 
+import android.content.Intent
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
 import android.os.Bundle
@@ -8,12 +9,16 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import com.example.xparty.R
 import com.example.xparty.data.repository.firebase.AuthRepositoryFirebase
 import com.example.xparty.databinding.FragmentRegisterBinding
@@ -28,6 +33,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
 
+
+
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
     private var binding: FragmentRegisterBinding by autoCleared()
@@ -40,6 +47,16 @@ class RegisterFragment : Fragment() {
     private var mIsProducer: Boolean = false
     private val TAG: String = "RegisterFragment"
     private val viewModel: RegisterViewModel by viewModels()
+    val pickImageLunacher : ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()){
+            requireContext().contentResolver.takePersistableUriPermission(it!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            when (it) {
+                null -> {
+                    binding.registerUserImage.setImageResource(R.drawable.profile_image)
+                }
+            }
+            Glide.with(this).load(it).into(binding.registerUserImage)
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,12 +65,14 @@ class RegisterFragment : Fragment() {
     ): View? {
         container?.removeAllViews()
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
-
+        binding.registerAddImage.setOnClickListener{
+            pickImageLunacher.launch(arrayOf("image/*"))
+        }
         binding?.approveButton?.setOnClickListener {
             bindingRegisterData()
             if (validateFullName() && validateEmail() && validatePassword() && validatePhone()) {
 
-                viewModel.createUser(mFullName, mEmail,mPassword,mPhone,mIsProducer)
+                viewModel.createUser(mFullName, mEmail,mPassword,mPhone,img,mIsProducer)
 
             } else {
                 Toast.makeText(context, "Failed to register", Toast.LENGTH_SHORT).show()
@@ -100,6 +119,7 @@ class RegisterFragment : Fragment() {
         mPassword = binding?.passwordEditText?.text.toString()
         mPasswordConfirmed = binding?.confirmPasswordEditText?.text.toString()
         mPhone = binding?.phoneEditText?.text.toString()
+        img =binding?.registerUserImage?.getTag(R.id.register_user_image) as Uri
         mIsProducer = binding?.isProducer?.isChecked == true
     }
 
