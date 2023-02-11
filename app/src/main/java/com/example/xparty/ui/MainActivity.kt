@@ -259,11 +259,15 @@ class MainActivity : AppCompatActivity() {
         if (sharedPreferences.getBoolean("isLogin", false)) {
             fullName.text = sharedPreferences.getString("fullName", null)
             email.text = sharedPreferences.getString("email", null)
-            val imageUriString = sharedPreferences.getString("imageUri", null)
-            Glide.with(this).load(imageUriString?.toUri()).placeholder(R.drawable.profile_image).into(img)
+            if(sharedPreferences.getBoolean("producer", false)){
+                Glide.with(this).load(R.drawable.producer_img).placeholder(R.drawable.profile_image).into(img)
+            }else{
+                Glide.with(this).load(R.drawable.regular_user).placeholder(R.drawable.profile_image).into(img)
+            }
         } else {
             fullName.text = getString(R.string.Guest)
             email.text = getString(R.string.header_second_text)
+            Glide.with(this).load(R.drawable.profile_image).placeholder(R.drawable.profile_image).into(img)
         }
     }
 

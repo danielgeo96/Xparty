@@ -1,6 +1,5 @@
 package com.example.xparty.ui.user
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Patterns
@@ -8,14 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.bumptech.glide.Glide
 import com.example.xparty.R
 import com.example.xparty.databinding.FragmentRegisterBinding
 import com.example.xparty.ui.MainActivity
@@ -35,20 +31,6 @@ class RegisterFragment : Fragment() {
     private var img: Uri? = null
     private var mIsProducer: Boolean = false
     private val viewModel: RegisterViewModel by viewModels()
-    private val pickImageLauncher: ActivityResultLauncher<Array<String>> =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) {
-            requireContext().contentResolver.takePersistableUriPermission(
-                it!!,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
-            when (it) {
-                null -> {
-                    binding.registerUserImage.setImageResource(R.drawable.profile_image)
-                }
-            }
-            Glide.with(this).load(it).into(binding.registerUserImage)
-            img = it
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,9 +39,20 @@ class RegisterFragment : Fragment() {
     ): View {
         container?.removeAllViews()
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        binding.registerAddImage.setOnClickListener {
-            pickImageLauncher.launch(arrayOf("image/*"))
+
+        binding.registerUserImage.setImageResource(R.drawable.regular_user)
+
+        binding.isProducer.setOnClickListener {
+            when(binding.isProducer.isChecked){
+                true -> {
+                    binding.registerUserImage.setImageResource(R.drawable.producer_img)
+                }
+                false ->{
+                    binding.registerUserImage.setImageResource(R.drawable.regular_user)
+                }
+            }
         }
+
         binding.approveButton.setOnClickListener {
             bindingRegisterData()
             if (validateFullName() && validateEmail() && validatePassword() && validatePhone()) {
