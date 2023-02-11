@@ -1,15 +1,10 @@
 package com.example.xparty.ui.party_character
 
-import android.os.BaseBundle
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,14 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.xparty.R
 import com.example.xparty.adapters.EventsAdapter
 import com.example.xparty.data.models.Party
-import com.example.xparty.data.repository.AllEventsRepository
-import com.example.xparty.data.repository.FavoritesEventsRepository
-import com.example.xparty.data.repository.firebase.EventsRepositoryFirebase
-import com.example.xparty.databinding.AddPartyLayoutBinding
 import com.example.xparty.databinding.FragmentPartiesListBinding
-import com.example.xparty.ui.MainActivity
-import com.example.xparty.utlis.Loading
-import com.example.xparty.utlis.Success
 import com.example.xparty.utlis.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,16 +20,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class PartiesListFragment : Fragment() {
 
     private var binding: FragmentPartiesListBinding by autoCleared()
-    private val viewModel : PartiesListFragmentViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private val viewModel: PartiesListFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPartiesListBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -53,16 +37,19 @@ class PartiesListFragment : Fragment() {
 
         binding.allEventsRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.allEventsRecycler.addItemDecoration(
-            DividerItemDecoration(context,
-                LinearLayoutManager.VERTICAL)
+            DividerItemDecoration(
+                context,
+                LinearLayoutManager.VERTICAL
+            )
         )
-        binding.allEventsRecycler.adapter = EventsAdapter(object : EventsAdapter.EventListener{
+        binding.allEventsRecycler.adapter = EventsAdapter(object : EventsAdapter.EventListener {
             override fun onEventClicked(event: Party) {
                 val bundle = Bundle()
-                bundle.putString("title",event.partyName)
-                bundle.putDouble("longitude",event.longitude)
-                bundle.putDouble("latitude",event.latitude)
-                view?.findNavController()?.navigate(R.id.action_partiesListFragment_to_mapFragment, bundle)
+                bundle.putString("title", event.partyName)
+                bundle.putDouble("longitude", event.longitude)
+                bundle.putDouble("latitude", event.latitude)
+                view.findNavController()
+                    .navigate(R.id.action_partiesListFragment_to_mapFragment, bundle)
             }
 
             override fun onEventLongClicked(event: Party) {

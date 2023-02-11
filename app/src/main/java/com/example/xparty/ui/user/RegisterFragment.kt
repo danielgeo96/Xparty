@@ -1,9 +1,7 @@
 package com.example.xparty.ui.user
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -15,15 +13,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.xparty.R
-import com.example.xparty.data.repository.firebase.AuthRepositoryFirebase
 import com.example.xparty.databinding.FragmentRegisterBinding
 import com.example.xparty.ui.MainActivity
-import com.example.xparty.ui.main_character.PartySearchFragment
 import com.example.xparty.utlis.*
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
@@ -36,24 +28,43 @@ class RegisterFragment : Fragment() {
     private lateinit var mPassword: String
     private lateinit var mPasswordConfirmed: String
     private lateinit var mPhone: String
-    private lateinit var img: Uri
+    private var img: Uri? = null
     private var mIsProducer: Boolean = false
-    private val TAG: String = "RegisterFragment"
     private val viewModel: RegisterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         container?.removeAllViews()
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
-        binding?.approveButton?.setOnClickListener {
+        binding.registerUserImage.setImageResource(R.drawable.regular_user)
+
+        binding.isProducer.setOnClickListener {
+            when(binding.isProducer.isChecked){
+                true -> {
+                    binding.registerUserImage.setImageResource(R.drawable.producer_img)
+                }
+                false ->{
+                    binding.registerUserImage.setImageResource(R.drawable.regular_user)
+                }
+            }
+        }
+
+        binding.approveButton.setOnClickListener {
             bindingRegisterData()
             if (validateFullName() && validateEmail() && validatePassword() && validatePhone()) {
 
-                viewModel.createUser(mFullName, mEmail,mPassword,mPhone,mIsProducer)
+                viewModel.createUser(
+                    mFullName,
+                    mEmail,
+                    mPassword,
+                    mPhone,
+                    img.toString(),
+                    mIsProducer
+                )
 
             } else {
                 Toast.makeText(context, "Failed to register", Toast.LENGTH_SHORT).show()
@@ -75,7 +86,8 @@ class RegisterFragment : Fragment() {
                 }
 
                 is Success -> {
-                    Toast.makeText(requireContext(),"Registration successful",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT)
+                        .show()
                     val mainActivityView = (activity as MainActivity)
                     val navController: NavController = Navigation.findNavController(
                         mainActivityView,
@@ -86,7 +98,7 @@ class RegisterFragment : Fragment() {
                     mainActivityView.replaceFragment("Login Page")
                 }
 
-                is com.example.xparty.utlis.Error -> {
+                is Error -> {
                     binding.approveButton.isEnabled = true
                     binding.registerProgressBar.isVisible = false
                 }
@@ -95,33 +107,37 @@ class RegisterFragment : Fragment() {
     }
 
     private fun bindingRegisterData() {
-        mFullName = binding?.nameEditText?.text.toString()
-        mEmail = binding?.emailEditText?.text.toString()
-        mPassword = binding?.passwordEditText?.text.toString()
-        mPasswordConfirmed = binding?.confirmPasswordEditText?.text.toString()
-        mPhone = binding?.phoneEditText?.text.toString()
-        mIsProducer = binding?.isProducer?.isChecked == true
+        mFullName = binding.nameEditText.text.toString()
+        mEmail = binding.emailEditText.text.toString()
+        mPassword = binding.passwordEditText.text.toString()
+        mPasswordConfirmed = binding.confirmPasswordEditText.text.toString()
+        mPhone = binding.phoneEditText.text.toString()
+        mIsProducer = binding.isProducer.isChecked == true
+        if (img == null){
+            img = Uri.parse("android.resource://com.example.xparty/" + R.drawable.profile_image
+            )
+        }
     }
 
     private fun validateFullName(): Boolean {
         return if (mFullName.isEmpty()) {
-            binding?.nameEditText?.error = "Field can not be empty"
+            binding.nameEditText.error = "Field can not be empty"
             false
         } else if (!mFullName.all { it.isLetter() }) {
-            binding?.nameEditText?.error = "Field can not contain numbers"
+            binding.nameEditText.error = "Field can not contain numbers"
             false
         } else {
-            binding?.nameEditText?.error = null
+            binding.nameEditText.error = null
             true
         }
     }
 
     private fun validateEmail(): Boolean {
         return if (!mEmail.isValidEmail()) {
-            binding?.emailEditText?.error = "Email not validate please try again."
+            binding.emailEditText.error = "Email not validate please try again."
             false
         } else {
-            binding?.passwordEditText?.error = null
+            binding.passwordEditText.error = null
             true
         }
     }
@@ -132,18 +148,18 @@ class RegisterFragment : Fragment() {
     private fun validatePassword(): Boolean {
 
         return if (mPassword.length < 8) {
-            binding?.passwordEditText?.error = "Use 8 characters or more for your password."
+            binding.passwordEditText.error = "Use 8 characters or more for your password."
             false
         } else if (!isValidPassword(mPassword)) {
-            binding?.passwordEditText?.error =
+            binding.passwordEditText.error =
                 "Password must contain at least one digit and one letter."
             false
         } else if (mPassword != mPasswordConfirmed) {
-            binding?.confirmPasswordEditText?.error = "Those passwords didn’t match. Try again."
+            binding.confirmPasswordEditText.error = "Those passwords didn't match. Try again."
             false
         } else {
-            binding?.passwordEditText?.error = null
-            binding?.confirmPasswordEditText?.error = null
+            binding.passwordEditText.error = null
+            binding.confirmPasswordEditText.error = null
             true
         }
     }
@@ -156,16 +172,16 @@ class RegisterFragment : Fragment() {
                     "(?=\\S+$)" +           //no white spaces
                     ".{8,}" +               //at least 8 characters
                     "$"
-        );
+        )
         return passwordREGEX.matcher(password).matches()
     }
 
     private fun validatePhone(): Boolean {
         return if (!Patterns.PHONE.matcher(mPhone).matches()) {
-            binding?.phoneEditText?.error = "Phone number not validate please try again."
+            binding.phoneEditText.error = "Phone number not validate please try again."
             false
         } else {
-            binding?.phoneEditText?.error = null
+            binding.phoneEditText.error = null
             true
         }
     }

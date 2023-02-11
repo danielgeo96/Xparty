@@ -3,8 +3,6 @@ package com.example.xparty.utlis
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import com.example.xparty.data.models.Event
-import com.example.xparty.data.models.Party
 import kotlinx.coroutines.Dispatchers
 
 fun <T, A> performFetchingAndSaving(
@@ -24,8 +22,7 @@ fun <T, A> performFetchingAndSaving(
 
         if (fetchResource.status is Success) {
             localDbSave(fetchResource.status.data!!)
-        }
-        else if (fetchResource.status is Error) {
+        } else if (fetchResource.status is Error) {
             emit(Resource.error(fetchResource.status.message))
             emitSource(source)
         }

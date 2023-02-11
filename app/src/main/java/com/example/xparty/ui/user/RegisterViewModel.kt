@@ -9,15 +9,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(private val repository: AuthRepository) : ViewModel(){
+class RegisterViewModel @Inject constructor(private val repository: AuthRepository) : ViewModel() {
 
     private val _userRegistrationStatus = MutableLiveData<Resource<User>>()
-    val userRegistrationStatus : LiveData<Resource<User>> = _userRegistrationStatus
+    val userRegistrationStatus: LiveData<Resource<User>> = _userRegistrationStatus
 
-    fun createUser(userName : String, email:String, password: String,phone:String,isProducer:Boolean){
+    fun createUser(
+        userName: String,
+        email: String,
+        password: String,
+        phone: String,
+        photo: String,
+        isProducer: Boolean
+    ) {
         _userRegistrationStatus.postValue(Resource.loading())
         viewModelScope.launch {
-            val registrationResult = repository.createUser(userName,email,password,phone,isProducer)
+            val registrationResult =
+                repository.createUser(userName, email, password, phone, photo, isProducer)
             _userRegistrationStatus.postValue(registrationResult)
         }
     }

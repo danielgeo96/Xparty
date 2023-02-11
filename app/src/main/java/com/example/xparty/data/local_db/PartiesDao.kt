@@ -21,8 +21,8 @@ interface PartiesDao {
     suspend fun insertParties(parties: List<Party>)
 
     @Query("SELECT * FROM Parties")
-    fun getAllParties() : LiveData<List<Party>>
+    fun getAllParties(): LiveData<List<Party>>
 
     @Query("SELECT * FROM parties where isFav=1")
-    fun getAllFavParties() : List<Party>
+    fun getAllFavParties(): List<Party>
 }

@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 class EventsRemoteDataSource @Inject constructor(
     private val eventsService: EventsService
-)  : BaseDataSource() {
+) : BaseDataSource() {
 
     suspend fun getEvents() = getResult { eventsService.getAllEvents() }
 }

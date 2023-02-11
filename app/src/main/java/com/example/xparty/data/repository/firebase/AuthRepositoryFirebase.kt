@@ -1,5 +1,6 @@
 package com.example.xparty.data.repository.firebase
 
+import android.net.Uri
 import com.example.xparty.data.models.User
 import com.example.xparty.data.repository.AuthRepository
 import com.example.xparty.utlis.Resource
@@ -31,7 +32,6 @@ class AuthRepositoryFirebase @Inject constructor():AuthRepository{
             safeCall {
                 val result = firebaseAuth.signInWithEmailAndPassword(email,password).await()
                 val user = userRef.document(result.user?.uid!!).get().await().toObject(User::class.java)!!
-
                 Resource.success(user)
             }
         }
@@ -42,6 +42,7 @@ class AuthRepositoryFirebase @Inject constructor():AuthRepository{
         email: String,
         password: String,
         phone: String,
+        photo:String,
         isProducer: Boolean
     ) : Resource<User> {
         return withContext(Dispatchers.IO){
@@ -49,7 +50,7 @@ class AuthRepositoryFirebase @Inject constructor():AuthRepository{
                 //add new user to fire base auth
                 val registrationResult = firebaseAuth.createUserWithEmailAndPassword(email,password).await()
                 val userId = registrationResult.user?.uid!!
-                val user = User(userName,email,phone,isProducer,null,userId) //Fix photos
+                val user = User(userName,email,phone,isProducer,photo,userId) //Fix photos
                 //add new user to fire base firestore
                 userRef.document(userId).set(user).await()
                 Resource.success(user)

@@ -7,6 +7,6 @@ import retrofit2.http.GET
 interface EventsService {
 
     @GET("events.json?apikey=TWwSaM3BIZmc2x0byoQUv8hGhblqK1Hz")
-    suspend fun getAllEvents() : Response<AllEvents>
+    suspend fun getAllEvents(): Response<AllEvents>
 
 }

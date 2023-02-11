@@ -9,10 +9,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.xparty.R
 import com.example.xparty.adapters.EventsAdapter
 import com.example.xparty.data.models.Party
-import com.example.xparty.databinding.AddPartyLayoutBinding
 import com.example.xparty.databinding.FragmentFavoritesEventsBinding
 import com.example.xparty.utlis.Loading
 import com.example.xparty.utlis.Success
@@ -22,18 +20,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FavoritesEventsFragment : Fragment() {
 
-    var binding : FragmentFavoritesEventsBinding by autoCleared()
+    var binding: FragmentFavoritesEventsBinding by autoCleared()
     private val viewModel: FavoritesEventsFragmentViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         container?.removeAllViews()
         binding = FragmentFavoritesEventsBinding.inflate(inflater, container, false)
 
@@ -45,10 +38,12 @@ class FavoritesEventsFragment : Fragment() {
 
         binding.favEventsRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.favEventsRecycler.addItemDecoration(
-            DividerItemDecoration(context,
-                LinearLayoutManager.VERTICAL)
+            DividerItemDecoration(
+                context,
+                LinearLayoutManager.VERTICAL
+            )
         )
-        binding.favEventsRecycler.adapter = EventsAdapter(object : EventsAdapter.EventListener{
+        binding.favEventsRecycler.adapter = EventsAdapter(object : EventsAdapter.EventListener {
             override fun onEventClicked(event: Party) {
             }
 
@@ -60,9 +55,9 @@ class FavoritesEventsFragment : Fragment() {
             }
         })
 
-        viewModel.eventsStatus.observe(viewLifecycleOwner){
-            when(it.status){
-                is Loading ->{
+        viewModel.eventsStatus.observe(viewLifecycleOwner) {
+            when (it.status) {
+                is Loading -> {
                     binding.favEventsProgressBar.isVisible = true
                 }
 

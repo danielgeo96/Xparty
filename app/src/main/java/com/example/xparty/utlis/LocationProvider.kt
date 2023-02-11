@@ -1,4 +1,5 @@
 package com.example.xparty.utlis
+
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -11,12 +12,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class LocationProvider @Inject
-constructor(private val locationManager: LocationManager,
-            private val permissionChecker: PremmsionChecker
-            ):ViewModel() {
+constructor(
+    private val locationManager: LocationManager,
+    private val permissionChecker: PermissionChecker
+) : ViewModel() {
 
 
     private var locationLiveData = MutableLiveData<Location?>()
@@ -65,8 +66,10 @@ constructor(private val locationManager: LocationManager,
     private fun getCurrentLocation(): Location? {
         if (permissionChecker.checkPermission()) {
             return try {
-                val lastKnownGPSLocation: Location? = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                val lastKnownNetworkLocation: Location? = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                val lastKnownGPSLocation: Location? =
+                    locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                val lastKnownNetworkLocation: Location? =
+                    locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if ((lastKnownGPSLocation != null) && (lastKnownGPSLocation.time > (lastKnownNetworkLocation?.time
                         ?: 0))
                 ) {

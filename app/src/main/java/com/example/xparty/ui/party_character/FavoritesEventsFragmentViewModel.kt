@@ -18,8 +18,8 @@ class FavoritesEventsFragmentViewModel @Inject constructor(
 
     private val instance = favoritesEventsRepository
 
-    val _eventsStatus : MutableLiveData<Resource<List<Party>>> = MutableLiveData()
-    val eventsStatus : LiveData<Resource<List<Party>>> = _eventsStatus
+    private val _eventsStatus: MutableLiveData<Resource<List<Party>>> = MutableLiveData()
+    val eventsStatus: LiveData<Resource<List<Party>>> = _eventsStatus
 
     init {
         viewModelScope.launch {
@@ -27,9 +27,9 @@ class FavoritesEventsFragmentViewModel @Inject constructor(
         }
     }
 
-    fun removeFavEvent(event:Party){
+    fun removeFavEvent(event: Party) {
         viewModelScope.launch {
-            instance.removeFavParty(_eventsStatus,event)
+            instance.removeFavParty(_eventsStatus, event)
         }
     }
 }

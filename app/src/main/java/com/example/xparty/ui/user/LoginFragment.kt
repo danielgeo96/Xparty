@@ -3,7 +3,6 @@ package com.example.xparty.ui.user
 import android.content.Context
 import android.content.SharedPreferences.Editor
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,22 +13,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.xparty.R
-import com.example.xparty.data.repository.firebase.AuthRepositoryFirebase
 import com.example.xparty.databinding.FragmentLoginBinding
 import com.example.xparty.ui.MainActivity
 import com.example.xparty.utlis.Loading
 import com.example.xparty.utlis.Success
 import com.example.xparty.utlis.autoCleared
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
-    private val TAG: String = "LoginFragment"
     private var binding: FragmentLoginBinding by autoCleared()
     private lateinit var mEmail: String
     private lateinit var mPassword: String
@@ -40,11 +33,11 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         container?.removeAllViews()
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        binding?.loginBtn?.setOnClickListener {
+        binding.loginBtn.setOnClickListener {
             bindingLoginData()
             viewModel.signIn(mEmail, mPassword)
 
@@ -65,14 +58,14 @@ class LoginFragment : Fragment() {
                 is Success -> {
                     Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT).show()
 
-                    //save user detailes to shared pref
+                    //save user details to shared pref
                     editor = context?.getSharedPreferences("pref", Context.MODE_PRIVATE)?.edit()
                     editor?.putString("fullName", it.status.data?.name.toString())
                     editor?.putString("email", it.status.data?.email.toString())
                     editor?.putString("phone", it.status.data?.phone.toString())
                     editor?.putString("userId", it.status.data?.userId.toString())
                     editor?.putString("img", it.status.data?.photo.toString())
-                    editor?.putBoolean("producer",it.status.data!!.producer)
+                    editor?.putBoolean("producer", it.status.data!!.producer)
                     editor?.putBoolean("isLogin", true)
                     editor?.commit()
 
@@ -93,13 +86,11 @@ class LoginFragment : Fragment() {
                 }
             }
         }
-
     }
 
-
     private fun bindingLoginData() {
-        mEmail = binding?.emailEditText?.text.toString()
-        mPassword = binding?.passwordEditText?.text.toString()
+        mEmail = binding.emailEditText.text.toString()
+        mPassword = binding.passwordEditText.text.toString()
     }
 
 }

@@ -11,20 +11,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddPartyViewModel @Inject constructor(private val application: Application,private val eventsRepository: EventsRepository): ViewModel(){
+class AddPartyViewModel @Inject constructor(
+    application: Application,
+    private val eventsRepository: EventsRepository
+) : ViewModel() {
 
-    private val sharedPreferences: SharedPreferences = application.getSharedPreferences("pref", Context.MODE_PRIVATE)
-    val userId : String = sharedPreferences.getString("userId","").toString()
+    private val sharedPreferences: SharedPreferences =
+        application.getSharedPreferences("pref", Context.MODE_PRIVATE)
+    val userId: String = sharedPreferences.getString("userId", "").toString()
 
     private val _addEventStatus = MutableLiveData<Resource<Void>>()
-    val addEventStatus:LiveData<Resource<Void>> = _addEventStatus
+    val addEventStatus: LiveData<Resource<Void>> = _addEventStatus
 
-    fun addEvent(title:String,description:String,longitude: Double,
-                 latitude:Double,isFav:Boolean,img:String){
+    fun addEvent(
+        title: String, description: String, longitude: Double,
+        latitude: Double, isFav: Boolean, img: String
+    ) {
         viewModelScope.launch {
             _addEventStatus.postValue(Resource.loading())
-            _addEventStatus.postValue(eventsRepository.addEvent(title,longitude,
-                latitude,description,userId,isFav,img))
+            _addEventStatus.postValue(
+                eventsRepository.addEvent(
+                    title, longitude,
+                    latitude, description, userId, isFav, img
+                )
+            )
         }
     }
 }
