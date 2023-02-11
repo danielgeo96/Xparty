@@ -9,7 +9,7 @@ import com.example.xparty.data.models.Party
 import com.example.xparty.data.models.User
 
 
-@Database(entities = [Party::class, User::class], version = 11, exportSchema = false)
+@Database(entities = [Party::class, User::class], version = 12, exportSchema = false)
 @TypeConverters(UriConverter::class)
 abstract class DataBase : RoomDatabase() {
 
