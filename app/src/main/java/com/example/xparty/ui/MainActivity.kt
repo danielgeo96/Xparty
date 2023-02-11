@@ -3,10 +3,8 @@ package com.example.xparty.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -16,22 +14,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.xparty.R
 import com.example.xparty.databinding.ActivityMainBinding
-import com.example.xparty.ui.user.LoginViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -40,28 +34,22 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var navigationView: NavigationView
     private var isOpen: Boolean = false
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
     private var isReadPermissionGranted = false
-    private var isWritePermissionnGranted = false
-    private var isInterntPermissionGranted = false
-    private var isLoctionPermissionGranted = false
+    private var isWritePermissionGranted = false
+    private var isInternetPermissionGranted = false
+    private var isLocationPermissionGranted = false
     private val permissionRequestLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
-        {
-                permissions->
-            isReadPermissionGranted = permissions[Manifest.permission.READ_EXTERNAL_STORAGE]?:isReadPermissionGranted
-            isLoctionPermissionGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION]?:isLoctionPermissionGranted
-            isWritePermissionnGranted = permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE]?:isWritePermissionnGranted
-            isInterntPermissionGranted = permissions[Manifest.permission.ACCESS_NETWORK_STATE]?:isInterntPermissionGranted
-        }
-
-    val pickImageLunacher : ActivityResultLauncher<Array<String>> =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()){
-            contentResolver.takePersistableUriPermission(it!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            val imageUri = it
-            val headerView = navigationView.getHeaderView(0)
-            val headerImageView = headerView.findViewById<ImageView>(R.id.header_image_view)
-            Glide.with(this).load(imageUri).into(headerImageView)
+        { permissions ->
+            isReadPermissionGranted =
+                permissions[Manifest.permission.READ_EXTERNAL_STORAGE] ?: isReadPermissionGranted
+            isLocationPermissionGranted =
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: isLocationPermissionGranted
+            isWritePermissionGranted =
+                permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] ?: isWritePermissionGranted
+            isInternetPermissionGranted =
+                permissions[Manifest.permission.ACCESS_NETWORK_STATE] ?: isInternetPermissionGranted
         }
 
     @SuppressLint("MissingInflatedId")
@@ -70,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //set always dark mode
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         sharedPreferences = this.getSharedPreferences("pref", Context.MODE_PRIVATE)
 
@@ -94,7 +82,8 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
 
             it.isChecked = true
-            val navController:NavController = Navigation.findNavController(this,R.id.nav_host_fragment)
+            val navController: NavController =
+                Navigation.findNavController(this, R.id.nav_host_fragment)
 
             when (it.itemId) {
                 R.id.party_search_btn -> {
@@ -160,26 +149,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun requestPermissions()
-    {
-        isReadPermissionGranted = ContextCompat.checkSelfPermission(this,
-            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        isLoctionPermissionGranted = ContextCompat.checkSelfPermission(this,
-            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        isWritePermissionnGranted = ContextCompat.checkSelfPermission(this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        isInterntPermissionGranted = ContextCompat.checkSelfPermission(this,
-            Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED
-        val premissionRequestArray :MutableList<String> = ArrayList()
-        if(!isReadPermissionGranted) premissionRequestArray.add(Manifest.permission.READ_EXTERNAL_STORAGE)
-        if(!isLoctionPermissionGranted) premissionRequestArray.add(Manifest.permission.ACCESS_FINE_LOCATION)
-        if(!isWritePermissionnGranted) premissionRequestArray.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        if(!isInterntPermissionGranted) premissionRequestArray.add(Manifest.permission.ACCESS_NETWORK_STATE)
-        if(premissionRequestArray.isNotEmpty()) permissionRequestLauncher.launch(premissionRequestArray.toTypedArray())
+    private fun requestPermissions() {
+        isReadPermissionGranted = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+        isLocationPermissionGranted = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+        isWritePermissionGranted = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+        isInternetPermissionGranted = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_NETWORK_STATE
+        ) == PackageManager.PERMISSION_GRANTED
+        val permissionRequestArray: MutableList<String> = ArrayList()
+        if (!isReadPermissionGranted) permissionRequestArray.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (!isLocationPermissionGranted) permissionRequestArray.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        if (!isWritePermissionGranted) permissionRequestArray.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (!isInternetPermissionGranted) permissionRequestArray.add(Manifest.permission.ACCESS_NETWORK_STATE)
+        if (permissionRequestArray.isNotEmpty()) permissionRequestLauncher.launch(
+            permissionRequestArray.toTypedArray()
+        )
     }
 
     private fun setDrawerMenuItems(index: Int) {
-        var menu: Menu = navigationView.menu
+        val menu: Menu = navigationView.menu
         when (index) {
             1 -> {
                 menu.setGroupVisible(R.id.member_main, true)
@@ -238,9 +236,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun handleConnectionState() {
-        var isLogin: Boolean = sharedPreferences.getBoolean("isLogin", false)
-        var isProducer: Boolean = sharedPreferences.getBoolean("producer" , false)
+    private fun handleConnectionState() {
+        val isLogin: Boolean = sharedPreferences.getBoolean("isLogin", false)
+        val isProducer: Boolean = sharedPreferences.getBoolean("producer", false)
         if (isLogin) {
             if (isProducer) {
                 setDrawerMenuItems(2)
@@ -253,34 +251,20 @@ class MainActivity : AppCompatActivity() {
         setNavHeaderView()
     }
 
-    private fun setNavHeaderView(){
-        var view: View = navigationView.getHeaderView(0)
-        var fullName : TextView = view.findViewById(R.id.full_name_header)
-        var email: TextView = view.findViewById(R.id.email_header)
-        var img : ImageView = view.findViewById(R.id.header_image_view)
-        if(sharedPreferences.getBoolean("isLogin", false)){
+    private fun setNavHeaderView() {
+        val view: View = navigationView.getHeaderView(0)
+        val fullName: TextView = view.findViewById(R.id.full_name_header)
+        val email: TextView = view.findViewById(R.id.email_header)
+        val img: ImageView = view.findViewById(R.id.header_image_view)
+        if (sharedPreferences.getBoolean("isLogin", false)) {
             fullName.text = sharedPreferences.getString("fullName", null)
-            email.text = sharedPreferences.getString("email",null)
+            email.text = sharedPreferences.getString("email", null)
             val imageUriString = sharedPreferences.getString("imageUri", null)
-            if (imageUriString != null) {
-                Glide.with(this).load(imageUriString.toUri()).into(img)
-
-            }
-//            img.setOnClickListener{
-//                val selectedImageUri = pickImageLunacher.launch(arrayOf("image/*"))
-//                val editor = sharedPreferences.edit()
-//                editor.putString("imageUri", selectedImageUri.toString())
-//                editor.apply()
-//                val user = sharedPreferences.all
-//            }
-            //TODO: ADD IMG SUPPORT
-        }else{
+            Glide.with(this).load(imageUriString?.toUri()).placeholder(R.drawable.profile_image).into(img)
+        } else {
             fullName.text = getString(R.string.Guest)
             email.text = getString(R.string.header_second_text)
-            img.visibility = GONE
         }
     }
-
-
 
 }

@@ -1,4 +1,5 @@
 package com.example.xparty.ui.party_character
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,16 +20,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class PartiesListFragment : Fragment() {
 
     private var binding: FragmentPartiesListBinding by autoCleared()
-    private val viewModel : PartiesListFragmentViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private val viewModel: PartiesListFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPartiesListBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -40,16 +37,19 @@ class PartiesListFragment : Fragment() {
 
         binding.allEventsRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.allEventsRecycler.addItemDecoration(
-            DividerItemDecoration(context,
-                LinearLayoutManager.VERTICAL)
+            DividerItemDecoration(
+                context,
+                LinearLayoutManager.VERTICAL
+            )
         )
-        binding.allEventsRecycler.adapter = EventsAdapter(object : EventsAdapter.EventListener{
+        binding.allEventsRecycler.adapter = EventsAdapter(object : EventsAdapter.EventListener {
             override fun onEventClicked(event: Party) {
                 val bundle = Bundle()
-                bundle.putString("title",event.partyName)
-                bundle.putDouble("longitude",event.longitude)
-                bundle.putDouble("latitude",event.latitude)
-                view?.findNavController()?.navigate(R.id.action_partiesListFragment_to_mapFragment, bundle)
+                bundle.putString("title", event.partyName)
+                bundle.putDouble("longitude", event.longitude)
+                bundle.putDouble("latitude", event.latitude)
+                view.findNavController()
+                    .navigate(R.id.action_partiesListFragment_to_mapFragment, bundle)
             }
 
             override fun onEventLongClicked(event: Party) {

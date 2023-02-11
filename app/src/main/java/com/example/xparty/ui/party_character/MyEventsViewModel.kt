@@ -12,19 +12,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyEventsViewModel@Inject constructor(private val eventsRepository: EventsRepository,
-                                           private val application: Application) : ViewModel() {
+class MyEventsViewModel @Inject constructor(
+    private val eventsRepository: EventsRepository,
+    application: Application
+) : ViewModel() {
 
-    private val sharedPreferences:SharedPreferences  = application.getSharedPreferences("pref", Context.MODE_PRIVATE)
-    val userId : String = sharedPreferences.getString("userId","").toString()
+    private val sharedPreferences: SharedPreferences =
+        application.getSharedPreferences("pref", Context.MODE_PRIVATE)
+    val userId: String = sharedPreferences.getString("userId", "").toString()
 
-    val _eventsStatus : MutableLiveData<Resource<List<Party>>> = MutableLiveData()
-    val eventsStatus : LiveData<Resource<List<Party>>> = _eventsStatus
+    private val
+            _eventsStatus: MutableLiveData<Resource<List<Party>>> = MutableLiveData()
+    val eventsStatus: LiveData<Resource<List<Party>>> = _eventsStatus
 
     private val _deleteEvent = MutableLiveData<Resource<Void>>()
-    val deleteEvent:LiveData<Resource<Void>> = _deleteEvent
+    val deleteEvent: LiveData<Resource<Void>> = _deleteEvent
 
-    fun deleteEvent(id:String){
+    fun deleteEvent(id: String) {
         viewModelScope.launch {
             _deleteEvent.postValue(Resource.loading())
             _deleteEvent.postValue(eventsRepository.deleteEvent(id))
@@ -32,7 +36,7 @@ class MyEventsViewModel@Inject constructor(private val eventsRepository: EventsR
     }
 
     init {
-        eventsRepository.getMyEventsLiveData(_eventsStatus,userId)
+        eventsRepository.getMyEventsLiveData(_eventsStatus, userId)
     }
 
 }

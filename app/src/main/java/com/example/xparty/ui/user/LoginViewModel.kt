@@ -12,22 +12,21 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(private val authRepository: AuthRepository) : ViewModel() {
 
     private val _userSignInStatus = MutableLiveData<Resource<User>>()
-    val userSignInStatus : LiveData<Resource<User>> = _userSignInStatus
+    val userSignInStatus: LiveData<Resource<User>> = _userSignInStatus
 
     private val _currentUser = MutableLiveData<Resource<User>>()
-    val currentUser : LiveData<Resource<User>> = _currentUser
 
-    init{
+    init {
         viewModelScope.launch {
             _currentUser.postValue(Resource.loading())
             _currentUser.postValue(authRepository.currentUser())
         }
     }
 
-    fun signIn(email:String,password:String){
+    fun signIn(email: String, password: String) {
         _userSignInStatus.postValue(Resource.loading())
         viewModelScope.launch {
-            val loginResult = authRepository.login(email,password)
+            val loginResult = authRepository.login(email, password)
             _userSignInStatus.postValue(loginResult)
         }
     }

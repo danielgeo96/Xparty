@@ -1,8 +1,5 @@
 package com.example.xparty.ui.party_character
 
-import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,25 +11,21 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.xparty.R
-import com.example.xparty.data.models.Party
-import com.example.xparty.data.repository.firebase.EventsRepositoryFirebase
 import com.example.xparty.databinding.AddPartyLayoutBinding
 import com.example.xparty.ui.MainActivity
 import com.example.xparty.utlis.Loading
 import com.example.xparty.utlis.Success
 import com.example.xparty.utlis.autoCleared
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddPartyFragment : Fragment() {
 
-    private var TAG: String = "AddPartyFragment"
     private var binding: AddPartyLayoutBinding by autoCleared()
     private lateinit var eventTitle: String
     private lateinit var eventLocation: String
     private lateinit var eventDescription: String
-    private val viewModel : AddPartyViewModel by viewModels()
+    private val viewModel: AddPartyViewModel by viewModels()
     private var longitude: Double = 0.0
     private var latitude: Double = 0.0
     private var img = ""
@@ -41,7 +34,7 @@ class AddPartyFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         container?.removeAllViews()
         binding = AddPartyLayoutBinding.inflate(inflater, container, false)
 
@@ -49,7 +42,7 @@ class AddPartyFragment : Fragment() {
 
             if (isValidEvenTitle() && isValidLocation() && isValidDescription()) {
                 bindingEventData()
-                viewModel.addEvent(eventTitle,eventDescription,longitude,latitude,false,img)
+                viewModel.addEvent(eventTitle, eventDescription, longitude, latitude, false, img)
             }
 
         }

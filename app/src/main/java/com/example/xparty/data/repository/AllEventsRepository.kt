@@ -20,23 +20,31 @@ class AllEventsRepository @Inject constructor(
         { localDataSource.insertParties(convertData(it._embedded.events)) }
     )
 
-    fun getAllFavEvents() : List<Party>{
+    private fun getAllFavEvents(): List<Party> {
         return localDataSource.getAllFavParties()
     }
 
-    fun convertData(events : List<Event>):List<Party>{
-        val parties : ArrayList<Party> = ArrayList()
-        for(event in events){
-            var party = Party(event.name,"",event._embedded.venues.get(0).location.longitude,
-                event._embedded.venues.get(0).location.latitude,"",isFav(event.id),event.images.get(0).url,event.id)
+    private fun convertData(events: List<Event>): List<Party> {
+        val parties: ArrayList<Party> = ArrayList()
+        for (event in events) {
+            val party = Party(
+                event.name,
+                "",
+                event._embedded.venues[0].location.longitude,
+                event._embedded.venues[0].location.latitude,
+                "",
+                isFav(event.id),
+                event.images[0].url,
+                event.id
+            )
             parties.add(party)
         }
         return parties
     }
 
-    fun isFav(id:String):Boolean{
-        for (event in getAllFavEvents()){
-            if (event.id == id){
+    private fun isFav(id: String): Boolean {
+        for (event in getAllFavEvents()) {
+            if (event.id == id) {
                 return true
             }
         }

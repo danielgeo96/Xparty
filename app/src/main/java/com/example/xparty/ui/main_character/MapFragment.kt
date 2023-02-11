@@ -34,25 +34,18 @@ class MapFragment : Fragment() {
 
     private lateinit var map: MapView
     private var binding: FragmentMapBinding by autoCleared()
-    private lateinit var startPoint: GeoPoint
     private lateinit var mapController: IMapController
     private val viewModel: MapFragmentViewModel by viewModels()
     private val locationProvider: LocationProvider by viewModels()
-    private var locationBtnClicked: Boolean = false
     private var dataList: ArrayList<Party> = ArrayList()
     private var selfLocationIndex: Int = -1
     private lateinit var selfMarker: Marker
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMapBinding.inflate(inflater, container, false)
 
         Configuration.getInstance().userAgentValue = context?.packageName
@@ -71,8 +64,8 @@ class MapFragment : Fragment() {
                 is Success -> {
                     if (!it.status.data.isNullOrEmpty()) {
                         binding.mapSecondProgressBar.isVisible = false
-                        for (event in it.status.data){
-                            if(!dataList.contains(event)){
+                        for (event in it.status.data) {
+                            if (!dataList.contains(event)) {
                                 dataList.add(event)
                             }
                             val geoPoint = GeoPoint(event.latitude, event.longitude)
@@ -99,8 +92,8 @@ class MapFragment : Fragment() {
                 is Success -> {
                     if (!it.status.data.isNullOrEmpty()) {
                         binding.mapFirstProgressBar.isVisible = false
-                        for (event in it.status.data){
-                            if(!dataList.contains(event)){
+                        for (event in it.status.data) {
+                            if (!dataList.contains(event)) {
                                 dataList.add(event)
                             }
                             val geoPoint = GeoPoint(event.latitude, event.longitude)
@@ -135,7 +128,7 @@ class MapFragment : Fragment() {
             putSelfMarker(location)
         }
 
-        binding.myLocationMapFragment.setOnClickListener{
+        binding.myLocationMapFragment.setOnClickListener {
             Toast.makeText(this.requireContext(), "Loading location", Toast.LENGTH_SHORT).show()
             setLocation(
                 locationProvider.result.value?.latitude,
@@ -151,11 +144,6 @@ class MapFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     private fun putSelfMarker(location: Location?) {
@@ -194,7 +182,7 @@ class MapFragment : Fragment() {
         if (latitude != null && longitude != null) {
             binding.tvLon.text = longitude.toString()
             binding.tvLat.text = latitude.toString()
-            mapController.setZoom(19.0);
+            mapController.setZoom(19.0)
             val geoPoint = GeoPoint(latitude, longitude)
             mapController.setCenter(geoPoint)
         }

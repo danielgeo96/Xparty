@@ -1,5 +1,5 @@
-
 package com.example.xparty.data.local_db
+
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.xparty.data.models.User
@@ -14,8 +14,8 @@ interface UsersDao {
     suspend fun updateUser(user: User)
 
     @Delete
-    suspend fun  deleteUser(user: User)
+    suspend fun deleteUser(user: User)
 
     @Query("SELECT * FROM  Users")
-    fun getAllUsers():LiveData<List<User>>
+    fun getAllUsers(): LiveData<List<User>>
 }

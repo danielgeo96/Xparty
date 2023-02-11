@@ -14,7 +14,7 @@ class PartiesListFragmentViewModel @Inject constructor(
 
     private val instance = favoritesEventsRepository
 
-    fun setEvent(event:Party){
+    fun setEvent(event: Party) {
         viewModelScope.launch {
             instance.setFavParty(event)
         }

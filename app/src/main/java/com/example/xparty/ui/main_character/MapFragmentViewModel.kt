@@ -16,7 +16,7 @@ class MapFragmentViewModel @Inject constructor(
     eventsRepository: EventsRepository
 ) : ViewModel() {
 
-    val _eventsStatus: MutableLiveData<Resource<List<Party>>> = MutableLiveData()
+    private val _eventsStatus: MutableLiveData<Resource<List<Party>>> = MutableLiveData()
     val eventsStatus: LiveData<Resource<List<Party>>> = _eventsStatus
 
     val events = allEventsRepository.getAllEvents()

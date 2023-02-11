@@ -3,16 +3,13 @@ package com.example.xparty.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.xparty.R
 import com.example.xparty.data.models.Party
 import com.example.xparty.databinding.RowViewBinding
 
-class EventsAdapter(private val listener : EventListener) :
+class EventsAdapter(private val listener: EventListener) :
     RecyclerView.Adapter<EventsAdapter.ViewHolder>() {
 
     private val events = ArrayList<Party>()
@@ -29,10 +26,12 @@ class EventsAdapter(private val listener : EventListener) :
         fun onImgClick(event: Party)
     }
 
-    class ViewHolder(private val itemBinding: RowViewBinding,
-                     private val listener: EventListener) : RecyclerView.ViewHolder(itemBinding.root),View.OnClickListener,View.OnLongClickListener {
+    class ViewHolder(
+        private val itemBinding: RowViewBinding,
+        private val listener: EventListener
+    ) : RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener, View.OnLongClickListener {
 
-        private lateinit var event : Party
+        private lateinit var event: Party
 
         init {
             // Define click listener for the ViewHolder's View
@@ -42,7 +41,8 @@ class EventsAdapter(private val listener : EventListener) :
         fun bindData(item: Party) {
             this.event = item
             itemBinding.rowViewName.text = item.partyName
-            Glide.with(itemBinding.root).load(item.images).placeholder(R.drawable.event_party).into(itemBinding.rowImgaeView)
+            Glide.with(itemBinding.root).load(item.images).placeholder(R.drawable.event_party)
+                .into(itemBinding.rowImgaeView)
 
             itemBinding.rowFavButton.setOnClickListener {
                 listener.onImgClick(event)
@@ -60,8 +60,8 @@ class EventsAdapter(private val listener : EventListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = RowViewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return ViewHolder(binding,listener)
+        val binding = RowViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding, listener)
     }
 
     // Replace the contents of a view (invoked by the layout manager)

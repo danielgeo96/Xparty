@@ -5,11 +5,11 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class Event(
-    val name: String ="",
-    val description: String="",
+    val name: String = "",
+    val description: String = "",
     var _embedded: VenuesEmbedded,
-    var images : List<Image>,
+    var images: List<Image>,
     var id: String = ""
-){
+) {
 
 }

@@ -15,21 +15,21 @@ class FavoritesEventsRepository @Inject constructor(
 ) {
 
     suspend fun getFavParties(data: MutableLiveData<Resource<List<Party>>>) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             data.postValue(Resource.loading())
             data.postValue(Resource.success(localDataSource.getAllFavParties()))
         }
     }
 
     suspend fun setFavParty(event: Party) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             event.isFav = true
             localDataSource.AddParty(event)
         }
     }
 
-    suspend fun removeFavParty(data: MutableLiveData<Resource<List<Party>>>,event: Party) {
-        withContext(Dispatchers.IO){
+    suspend fun removeFavParty(data: MutableLiveData<Resource<List<Party>>>, event: Party) {
+        withContext(Dispatchers.IO) {
             event.isFav = false
             localDataSource.updateParty(event)
             data.postValue(Resource.success(localDataSource.getAllFavParties()))
